@@ -5,7 +5,6 @@ namespace Image3D\Driver;
 use Image3D\Color;
 use Image3D\Point;
 use Image3D\Paintable\Polygon;
-use Image3D\Renderer;
 
 /**
  * @category  Image
@@ -17,26 +16,38 @@ use Image3D\Renderer;
  * @link      http://pear.php.net/package/Image_3D
  * @since     Class available since Release 0.1.0
  */
-class ZBuffer extends \Image3D\Driver
+class ZBuffer extends \Image3D\Driver\GD
 {
-    protected $_filetype = 'png';
+
+    /**
+     * @var array
+     */
     protected $_points = [];
+    
+    /**
+     * @var array
+     */
     protected $_heigth = [];
 
-    public function __construct()
-    {
-    }
-
+    /**
+     * @param number $x width of the image
+     * @param number $y height of the image
+     */
     public function createImage($x, $y)
     {
-        $this->_image = imagecreatetruecolor($x, $y);
+        $this->_image = imagecreatetruecolor((int) $x, (int) $y);
         imagealphablending($this->_image, true);
         imageSaveAlpha($this->_image, true);
     }
 
-    protected function getColor(Color $color, $alpha = 1.)
+    /**
+     * @param Color $colorObj
+     * @param float $alpha
+     * @return int
+     */
+    protected function getColor(Color $colorObj, $alpha = 1.): int
     {
-        $values = $color->getValues();
+        $values = $colorObj->getValues();
 
         $values[0] = (int) round($values[0] * 255);
         $values[1] = (int) round($values[1] * 255);
@@ -62,13 +73,12 @@ class ZBuffer extends \Image3D\Driver
         return $color;
     }
 
-    public function setBackground(Color $color)
-    {
-        $bg = $this->getColor($color);
-        imagefill($this->_image, 1, 1, $bg);
-    }
-
-    protected function drawLine(Point $p1, Point $p2)
+    /**
+     * @param Point $p1
+     * @param Point $p2
+     * @return array
+     */
+    protected function drawLine(Point $p1, Point $p2): array
     {
         list($x1, $y1) = $p1->getScreenCoordinates();
         list($x2, $y2) = $p2->getScreenCoordinates();
@@ -124,12 +134,17 @@ class ZBuffer extends \Image3D\Driver
                 $points['coverage'][(int) $xCeil][(int) $yFloor] += $xOffset * (1 - $yOffset);
             }
         }
+        
         return $points;
     }
 
-    protected function getPolygonOutlines($pointArray)
+    /**
+     * @param array $pointArray
+     * @return array
+     */
+    protected function getPolygonOutlines(array $pointArray): array
     {
-        $map = array('height' => [], 'coverage' => []);
+        $map = ['height' => [], 'coverage' => []];
 
         $last = end($pointArray);
         foreach ($pointArray as $point) {
@@ -147,6 +162,10 @@ class ZBuffer extends \Image3D\Driver
         return $map;
     }
 
+    /**
+     * @param Polygon $polygon
+     * @return void
+     */
     public function drawPolygon(Polygon $polygon)
     {
         $points = $this->getPolygonOutlines($polygon->getPoints());
@@ -176,23 +195,11 @@ class ZBuffer extends \Image3D\Driver
         }
     }
 
-    public function drawGradientPolygon(Polygon $polygon)
-    {
-        $this->drawPolygon($polygon);
-    }
-
-    public function setFiletye($type)
-    {
-        $type = strtolower($type);
-        if (in_array($type, ['png', 'jpeg'])) {
-            $this->_filetype = $type;
-            return true;
-        }
-        
-        return false;
-    }
-
-    public function save($file): bool
+    /**
+     * @param string $filePath Path to the file where to write the data.
+     * @return bool
+     */
+    public function save(string $filePath): bool
     {
         foreach ($this->_heigth as $x => $row) {
             foreach ($row as $y => $points) {
@@ -203,21 +210,6 @@ class ZBuffer extends \Image3D\Driver
             }
         }
 
-        switch ($this->_filetype) {
-            case 'png':
-                return imagepng($this->_image, $file);
-            case 'jpeg':
-                return imagejpeg($this->_image, $file);
-        }
-        
-        return false;
-    }
-
-    public function getSupportedShading(): array
-    {
-        return [
-            Renderer::SHADE_NO,
-            Renderer::SHADE_FLAT
-        ];
+        return parent::save($filePath);
     }
 }

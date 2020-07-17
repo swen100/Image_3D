@@ -20,14 +20,30 @@ use Image3D\Renderer;
 class ASCII extends \Image3D\Driver
 {
 
+    /**
+     * @var float
+     */
     public static $IMAGE_3D_DRIVER_ASCII_GRAY = 0.01;
 
-    protected $_size;
-    protected $_filetype;
-    protected $_points;
-    protected $_heigth;
-    protected $_image;
-    protected $_charArray = array(
+    /**
+     * @var array
+     */
+    protected $_size = [0, 0];
+    
+    /**
+     * @var array
+     */
+    protected $_points = [];
+    
+    /**
+     * @var array
+     */
+    protected $_heigth = [];
+    
+    /**
+     * @var array
+     */
+    protected $_charArray = [
         0 => ' ',
         1 => '`',
         2 => '\'',
@@ -92,12 +108,10 @@ class ASCII extends \Image3D\Driver
         61 => 'b',
         62 => 'd',
         63 => '#',
-    );
+    ];
 
     public function __construct()
     {
-        $this->_filetype = 'txt';
-
         $this->reset();
     }
 
@@ -105,15 +119,14 @@ class ASCII extends \Image3D\Driver
     {
         $this->_points = [];
         $this->_heigth = [];
-
         $this->_image = [];
     }
 
     /**
      * Create the inital image
      *
-     * @param number $x Width of the image
-     * @param number $y Height of the image
+     * @param number $x width of the image
+     * @param number $y height of the image
      *
      * @return void
      */
@@ -122,15 +135,26 @@ class ASCII extends \Image3D\Driver
         $this->_size = [$x, $y];
     }
 
-    protected function _getColor(Color $color, $alpha = 1.)
+    /**
+     * @param Color $colorObj
+     * @param float $alpha default 1.0
+     * @return array
+     */
+    protected function getColor(Color $colorObj, $alpha = 1.): array
     {
-        $values = $color->getValues();
-        return array($values[0], $values[1], $values[2], (1 - $values[3]) * $alpha);
+        $values = $colorObj->getValues();
+        return [$values[0], $values[1], $values[2], (1 - $values[3]) * $alpha];
     }
 
-    protected function mixColor($old, $new)
+    /**
+     * @param array $old
+     * @param array $new
+     * @return array
+     */
+    protected function mixColor($old, $new): array
     {
-        $faktor = (1 - $new[3]) * $old[3]; // slight speed improvement
+        $faktor = (1 - $new[3]) * $old[3];
+        
         return array(
             $old[0] * $faktor + $new[0] * $new[3],
             $old[1] * $faktor + $new[1] * $new[3],
@@ -139,9 +163,13 @@ class ASCII extends \Image3D\Driver
         );
     }
 
+    /**
+     * @param Color $color
+     * @return void
+     */
     public function setBackground(Color $color)
     {
-        $bg = $this->_getColor($color);
+        $bg = $this->getColor($color);
 
         for ($x = 0; $x < $this->_size[0]; ++$x) {
             for ($y = 0; $y < $this->_size[1]; ++$y) {
@@ -150,7 +178,12 @@ class ASCII extends \Image3D\Driver
         }
     }
 
-    protected function _drawLine(Point $p1, Point $p2)
+    /**
+     * @param Point $p1
+     * @param Point $p2
+     * @return array
+     */
+    protected function drawLine(Point $p1, Point $p2): array
     {
         list($x1, $y1) = $p1->getScreenCoordinates();
         list($x2, $y2) = $p2->getScreenCoordinates();
@@ -164,16 +197,21 @@ class ASCII extends \Image3D\Driver
         for ($i = 0; $i < $steps; ++$i) {
             $points[(int) round($x1 + $i * $xdiff)][(int) round($y1 + $i * $ydiff)] = true;
         }
+        
         return $points;
     }
 
-    protected function getPolygonOutlines($pointArray)
+    /**
+     * @param array $pointArray
+     * @return array
+     */
+    protected function getPolygonOutlines(array $pointArray): array
     {
         $map = [];
 
         $last = end($pointArray);
         foreach ($pointArray as $point) {
-            $line = $this->_drawLine($last, $point);
+            $line = $this->drawLine($last, $point);
             $last = $point;
             // Merge line to map
             foreach ($line as $x => $row) {
@@ -186,6 +224,10 @@ class ASCII extends \Image3D\Driver
         return $map;
     }
 
+    /**
+     * @param Polygon $polygon
+     * @return void
+     */
     public function drawPolygon(Polygon $polygon)
     {
         $points = $this->getPolygonOutlines($polygon->getPoints());
@@ -199,34 +241,33 @@ class ASCII extends \Image3D\Driver
             $end = max(array_keys($row));
 
             // Starting point
-            $this->_heigth[$x][$start] = $this->_getColor($polygon->getColor());
+            $this->_heigth[$x][$start] = $this->getColor($polygon->getColor());
 
             // the way between
             for ($y = $start + 1; $y < $end; ++$y) {
-                $this->_heigth[$x][$y] = $this->_getColor($polygon->getColor());
+                $this->_heigth[$x][$y] = $this->getColor($polygon->getColor());
             }
 
             // Ending point
-            $this->_points[$x][$end] = $this->_getColor($polygon->getColor());
+            $this->_points[$x][$end] = $this->getColor($polygon->getColor());
         }
     }
 
+    /**
+     * @param Polygon $polygon
+     * @return void
+     */
     public function drawGradientPolygon(Polygon $polygon)
     {
         $this->drawPolygon($polygon);
     }
 
-    public function setFiletye($type)
-    {
-        $type = strtolower($type);
-        if (in_array($type, array('png', 'jpeg'))) {
-            $this->_filetype = $type;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+    /**
+     * 
+     * @param array $color
+     * @param string $last
+     * @return string
+     */
     public function getAnsiColorCode($color, $last = '')
     {
         $code = "\033[0;" . (30 + bindec((int) round($color[2]) . (int) round($color[1]) . (int) round($color[0]))) . 'm';
@@ -236,7 +277,12 @@ class ASCII extends \Image3D\Driver
         return '';
     }
 
-    public function save($file): bool
+    /**
+     * 
+     * @param string $file
+     * @return bool
+     */
+    public function save(string $file): bool
     {
         $asciiWidth = (int) ceil($this->_size[0] / 2);
         $asciiHeight = (int) ceil($this->_size[1] / 6);
@@ -279,6 +325,10 @@ class ASCII extends \Image3D\Driver
         return $success !== false;
     }
 
+    /**
+     * 
+     * @return array
+     */
     public function getSupportedShading(): array
     {
         return [

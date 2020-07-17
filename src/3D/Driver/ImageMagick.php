@@ -10,9 +10,7 @@ class ImageMagick extends \Image3D\Driver
 {
 
     /**
-     * Array of parameter strings passed to 'convert' binary.
-     *
-     * @var array
+     * @var array Array of parameter strings passed to 'convert' binary.
      * @access protected
      */
     protected $_commandQueue = [];
@@ -25,22 +23,24 @@ class ImageMagick extends \Image3D\Driver
     /**
      * @var string
      */
-    private $_filetype;
+    protected $_filetype = 'png';
 
-    public function __construct()
-    {
-    }
-
+    /**
+     * @param number $x width of the image
+     * @param number $y height of the image
+     */
     public function createImage($x, $y)
     {
         $this->_image = tempnam(sys_get_temp_dir(), 'IMG');
-
-        $this->_dimensions = ['x' => $x, 'y' => $y];
-
+        $this->_dimensions = ['x' => (int) $x, 'y' => (int) $y];
         $this->_commandQueue[] = "-size {$x}x{$y} xc:transparent";
     }
 
-    protected function _getColor(Color $color)
+    /**
+     * @param Color $color
+     * @return string
+     */
+    protected function getColor(Color $color): string
     {
         $values = $color->getValues();
 
@@ -62,7 +62,7 @@ class ImageMagick extends \Image3D\Driver
 
     public function setBackground(Color $color)
     {
-        $colorString = $this->_getColor($color);
+        $colorString = $this->getColor($color);
         array_splice($this->_commandQueue, 1, 0, '-fill ' . escapeshellarg($colorString) . ' ' .
                 '-draw ' . escapeshellarg('rectangle 0,0 ' . implode(',', $this->_dimensions)));
     }
@@ -80,7 +80,7 @@ class ImageMagick extends \Image3D\Driver
             $coords .= (int) $pointCoords[0] . ',' . (int) $pointCoords[1] . ' ';
         }
 
-        $command = '-fill ' . escapeshellarg($this->_getColor($polygon->getColor()));
+        $command = '-fill ' . escapeshellarg($this->getColor($polygon->getColor()));
         $command .= ' -draw ' . escapeshellarg('polygon ' . trim($coords));
 
         $this->_commandQueue[] = $command;
@@ -91,21 +91,28 @@ class ImageMagick extends \Image3D\Driver
         $this->drawPolygon($polygon);
     }
 
-    public function setFiletye($type)
+    /**
+     * @param string $type
+     * @return boolean
+     */
+    public function setFiletye(string $type): bool
     {
         $type = strtolower($type);
         if (in_array($type, ['png', 'jpeg'])) {
             $this->_filetype = $type;
             return true;
-        } else {
-            return false;
         }
+        
+        return false;
     }
 
-    public function save($file): bool
+    /**
+     * @param string $file Path to the file where to write the data.
+     * @return bool
+     */
+    public function save(string $file): bool
     {
         $command = '';
-        #$commandCount = 1;
         $firstRun = true;
 
         for ($i = 0; $i < count($this->_commandQueue); $i++) {
@@ -119,9 +126,13 @@ class ImageMagick extends \Image3D\Driver
                 $command = '';
             }
         }
+        
         return shell_exec($command) !== null;
     }
 
+    /**
+     * @return array
+     */
     public function getSupportedShading(): array
     {
         return [

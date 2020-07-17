@@ -25,16 +25,15 @@ class GD extends \Image3D\Driver
     protected $_filetype = 'png';
 
     /**
-     * @param number $x
-     * @param number $y
+     * @param number $x width of the image
+     * @param number $y height of the image
      */
     public function createImage($x, $y)
     {
-        $this->_image = imagecreatetruecolor($x, $y);
+        $this->_image = imagecreatetruecolor((int) $x, (int) $y);
     }
 
     /**
-     *
      * @param Color $colorObj
      * @return int
      */
@@ -67,8 +66,8 @@ class GD extends \Image3D\Driver
     }
 
     /**
-     *
      * @param Color $color
+     * @return void
      */
     public function setBackground(Color $color)
     {
@@ -98,8 +97,8 @@ class GD extends \Image3D\Driver
     }
 
     /**
-     *
      * @param Polygon $polygon
+     * @return void
      */
     public function drawGradientPolygon(Polygon $polygon)
     {
@@ -107,14 +106,13 @@ class GD extends \Image3D\Driver
     }
 
     /**
-     *
      * @param string $type
      * @return bool
      */
-    public function setFiletye($type): bool
+    public function setFiletye(string $type): bool
     {
         $type = strtolower($type);
-        if (\in_array($type, ['png', 'jpeg'])) {
+        if (in_array($type, ['png', 'jpeg'])) {
             $this->_filetype = $type;
             return true;
         }
@@ -123,11 +121,10 @@ class GD extends \Image3D\Driver
     }
 
     /**
-     *
-     * @param string $filePath
+     * @param string $filePath Path to the file where to write the data.
      * @return bool
      */
-    public function save($filePath): bool
+    public function save(string $filePath): bool
     {
         switch ($this->_filetype) {
             case 'png':
@@ -140,11 +137,13 @@ class GD extends \Image3D\Driver
     }
 
     /**
-     *
      * @return array
      */
     public function getSupportedShading(): array
     {
-        return [Renderer::SHADE_NO, Renderer::SHADE_FLAT];
+        return [
+            Renderer::SHADE_NO,
+            Renderer::SHADE_FLAT
+        ];
     }
 }

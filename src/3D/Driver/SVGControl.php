@@ -7,64 +7,30 @@ use Image3D\Paintable\Polygon;
 use Image3D\Renderer;
 
 /**
- * Creates a SVG, to move and rotate the 3D-object at runtime
+ * Creates a SVG, to move and rotate the 3D-object at runtime.
  *
- * @category Image
- * @package  Image_3D
- * @author   Arne Nordmann <3d-rotate@arne-nordmann.de>
+ * @category  Image
+ * @package   Image_3D
+ * @author    Kore Nordmann <3d@kore-nordmann.de>
+ * @copyright 1997-2005 Kore Nordmann
+ * @license   http://www.gnu.org/licenses/lgpl.txt lgpl 2.1
+ * @version   Release: @package_version@
+ * @link      http://pear.php.net/package/Image_3D
+ * @since     Class available since Release 0.1.0
  */
-class SVGControl extends \Image3D\Driver
+class SVGControl extends SVG
 {
 
     /**
-     * Width of the image
+     * @var string Rectangle with background-color
      */
-    protected $_x;
-
-    /**
-     * Height of the image
-     */
-    protected $_y;
-
-    /**
-     * Current, increasing element-id (integer)
-     */
-    protected $_id;
-
-    /**
-     * Array of gradients
-     */
-    protected $_gradients;
-
-    /**
-     * Rectangle with background-color
-     */
-    protected $_background;
-
-    /**
-     * Array of polygones
-     */
-    protected $_polygones;
-
-    /**
-     * Constructor
-     *
-     */
-    public function __construct()
-    {
-        $this->_image = '';
-        $this->_id = 1;
-
-        $this->_gradients = array();
-        $this->_polygones = array();
-    }
+    protected $_background = '';
 
     /**
      * Creates image header
      *
      * @param number $x width of the image
      * @param number $y height of the image
-     *
      * @return void
      */
     public function createImage($x, $y)
@@ -89,16 +55,19 @@ EOF;
      * Draws a rectangle with the size of the image and the passed colour
      *
      * @param Color $color Background colour of the image
-     *
      * @return void
      */
     public function setBackground(Color $color)
     {
         $this->_background = "\t<!-- coloured background -->\n";
-        $this->_background .= sprintf("\t<rect id=\"background\" x=\"0\" y=\"0\" width=\"%d\" height=\"%d\" style=\"%s\" />\n", $this->_x, $this->_y, $this->_getStyle($color));
+        $this->_background .= sprintf("\t<rect id=\"background\" x=\"0\" y=\"0\" width=\"%d\" height=\"%d\" style=\"%s\" />\n", $this->_x, $this->_y, $this->getStyle($color));
     }
 
-    protected function _getStyle(Color $color)
+    /**
+     * @param Color $color
+     * @return string
+     */
+    protected function getStyle(Color $color): string
     {
         $values = $color->getValues();
 
@@ -112,31 +81,11 @@ EOF;
                 . ((empty($values[3])) ? '' : ' opacity:' . $values[3]); // opacity
     }
 
-    protected function _getStop(Color $color, $offset = 0, $alpha = null)
-    {
-        $values = $color->getValues();
-
-        $values[0] = (int) round($values[0] * 255);
-        $values[1] = (int) round($values[1] * 255);
-        $values[2] = (int) round($values[2] * 255);
-        if ($alpha === null) {
-            $values[3] = 1 - $values[3];
-        } else {
-            $values[3] = 1 - $alpha;
-        }
-
-        return sprintf("\t\t\t<stop id=\"stop%d\" offset=\"%.1f\" style=\"stop-color:rgb(%d, %d, %d); stop-opacity:%.4f;\" />\n", $this->_id++, $offset, $values[0], $values[1], $values[2], $values[3]);
-    }
-
-    protected function _addGradient($string)
-    {
-        $id = 'linearGradient' . $this->_id++;
-
-        $this->_gradients[] = str_replace('[id]', $id, $string);
-        return $id;
-    }
-
-    protected function _addPolygon($string)
+    /**
+     * @param string $string
+     * @return string
+     */
+    protected function addPolygon($string): string
     {
         $id = 'data_polygon' . $this->_id++;
 
@@ -144,9 +93,12 @@ EOF;
         return $id;
     }
 
+    /**
+     * @param Polygon $polygon
+     * @return void
+     */
     public function drawPolygon(Polygon $polygon)
     {
-        $list = '';
         $points = $polygon->getPoints();
 
         $svg = "\t\t\t<polygon id=\"[id]\" "; //Image_3D_P
@@ -159,11 +111,15 @@ EOF;
             $svg .= 'y' . $nr . '="' . round($point->getY()) . '" ';
             $svg .= 'z' . $nr . '="' . round($point->getZ()) . '" ';
         }
-        $svg .= 'style="' . $this->_getStyle($polygon->getColor()) . "\" />\n";
+        $svg .= 'style="' . $this->getStyle($polygon->getColor()) . "\" />\n";
 
-        $this->_addPolygon($svg);
+        $this->addPolygon($svg);
     }
 
+    /**
+     * @param Polygon $polygon
+     * @return void
+     */
     public function drawGradientPolygon(Polygon $polygon)
     {
     }
@@ -173,7 +129,7 @@ EOF;
      *
      * @return string
      */
-    protected function _getScript()
+    protected function getScript(): string
     {
         $p_count = count($this->_polygones);
 
@@ -422,7 +378,7 @@ EOF;
      *
      * @return string
      */
-    protected function _getControls()
+    protected function getControls(): string
     {
         $drawArrow = function ($x, $y, $id, $rot, $funct) {
             $arrow_points = ($x + 12) . ',' . ($y + 3) . ' ' . ($x + 3) . ',' . ($y + 8) . ' ' . ($x + 12) . ',' . ($y + 13);
@@ -528,13 +484,17 @@ EOF;
         return $controls;
     }
 
-    public function save($file): bool
+    /**
+     * @param string $filePath
+     * @return bool
+     */
+    public function save(string $filePath): bool
     {
         // Start of SVG definition area
         $this->_image .= sprintf("\t<defs id=\"defs%d\">\n", $this->_id++);
 
         // Add scripting for moving and rotating
-        $this->_image .= $this->_getScript();
+        $this->_image .= $this->getScript();
 
         // Add gradients in case of GAUROUD-shading
         if (count($this->_gradients) > 0) {
@@ -546,7 +506,7 @@ EOF;
         $this->_image .= implode('', $this->_polygones);
         $this->_image .= "\t\t</g>\n";
 
-        /*         * *** button gradients to defs **** */
+        // button gradients to defs
         $this->_image .= "\t<linearGradient id=\"b_off\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n";
         $this->_image .= "\t\t<stop offset=\"0\" stop-color=\"#eee\" />\n";
         $this->_image .= "\t\t<stop offset=\"1\" stop-color=\"#ccc\" />\n";
@@ -555,7 +515,6 @@ EOF;
         $this->_image .= "\t\t<stop offset=\"0\" stop-color=\"#ccc\" />\n";
         $this->_image .= "\t\t<stop offset=\"1\" stop-color=\"#eee\" />\n";
         $this->_image .= "\t</linearGradient>\n";
-        /*         * ******* */
 
         // End of SVG definition area
         $this->_image .= sprintf("\t</defs>\n\n");
@@ -571,13 +530,16 @@ EOF;
         $this->_image .= "\n\t</g>\n";
 
         // Add controls for moving and rotating
-        $this->_image .= $this->_getControls();
+        $this->_image .= $this->getControls();
 
         $this->_image .= "</svg>\n";
         
-        return file_put_contents($file, $this->_image) !== false;
+        return file_put_contents($filePath, $this->_image) !== false;
     }
 
+    /**
+     * @return array
+     */
     public function getSupportedShading(): array
     {
         return [

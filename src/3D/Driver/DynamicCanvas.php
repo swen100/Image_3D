@@ -18,54 +18,35 @@ class DynamicCanvas extends \Image3D\Driver
 {
 
     /**
-     * Width of the image
-     *
-     * @var integer
+     * @var integer Width of the image
      */
     protected $_x;
 
     /**
-     * Height of the image
-     *
-     * @var integer
+     * @var integer Height of the image
      */
     protected $_y;
 
     /**
-     * Polygones created during the rendering process
-     *
-     * @var array
+     * @var array Polygones created during the rendering process
      */
     protected $_polygones = [];
 
     /**
-     * Background Color of the rendered image
-     *
-     * @var string
+     * @var string Background Color of the rendered image
      */
     protected $_background = '';
 
     /**
-     * Name of the Render created from the filename
-     * Needed for the correct creation of the Image3D java class
-     *
-     * @var mixed
+     * @var mixed Name of the Render created from the filename. Needed for the correct creation of the Image3D class.
      */
     protected $_name;
 
     /**
-     * Class constructor
-     */
-    public function __construct()
-    {
-        $this->_image = '';
-    }
-
-    /**
      * Create the inital image
      *
-     * @param number $x Width of the image
-     * @param number $y Height of the image
+     * @param number $x width of the image
+     * @param number $y height of the image
      *
      * @return void
      */
@@ -99,10 +80,9 @@ class DynamicCanvas extends \Image3D\Driver
      * Create an appropriate array representation from a Image_3D_Color object
      *
      * @param Color $color Color to transform to rgba syntax
-     * @param float          $alpha optional Override the alpha value set in the Image_3D_Color object
+     * @param float $alpha optional Override the alpha value set in the Image_3D_Color object
      *
-     * @return array Array of color values reflecting the different color
-     *               components of the input object
+     * @return array Array of color values reflecting the different color components of the input object
      */
     protected function getRgba(Color $color, $alpha = null)
     {
@@ -125,8 +105,7 @@ class DynamicCanvas extends \Image3D\Driver
      * Add a polygon to the polygones array
      *
      * @param array $points Array of points which represent the polygon to add
-     * @param array $colors Array of maximal three colors. The second and the
-     *                      third color are allowed to be null
+     * @param array $colors Array of maximal three colors. The second and the third color are allowed to be null
      *
      * @return void
      */
@@ -158,11 +137,9 @@ class DynamicCanvas extends \Image3D\Driver
     }
 
     /**
-     * Draw a specified polygon utilizing gradients between his points for
-     * color representation (Gauroud-Shading)
+     * Draw a specified polygon utilizing gradients between his points for color representation (Gauroud-Shading)
      *
      * @param Polygon $polygon Polygon to draw
-     *
      * @return void
      */
     public function drawGradientPolygon(Polygon $polygon)
@@ -183,7 +160,6 @@ class DynamicCanvas extends \Image3D\Driver
      * Convert php array to a javascript parsable data structure
      *
      * @param array $data Array to convert
-     *
      * @return string Javascript readable representation of the given php array
      */
     private function arrayToJs(array $data)
@@ -299,13 +275,12 @@ class DynamicCanvas extends \Image3D\Driver
     /**
      * Save all the gathered information to a html file
      *
-     * @param string $file File to write output to
-     *
+     * @param string $filePath Path to the file where to write the data.
      * @return bool
      */
-    public function save($file): bool
+    public function save($filePath): bool
     {
-        return file_put_contents($file, $this->getJs()) !== false;
+        return file_put_contents($filePath, $this->getJs()) !== false;
     }
 
     /**
@@ -315,6 +290,9 @@ class DynamicCanvas extends \Image3D\Driver
      */
     public function getSupportedShading(): array
     {
-        return array(Renderer::SHADE_NO, Renderer::SHADE_FLAT);
+        return [
+            Renderer::SHADE_NO,
+            Renderer::SHADE_FLAT
+        ];
     }
 }

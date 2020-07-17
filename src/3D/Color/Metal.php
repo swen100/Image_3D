@@ -17,13 +17,23 @@ namespace Image3D\Color;
 class Image_3D_Color_Metal extends \Image3D\Color
 {
 
+    /**
+     * @var float
+     */
     protected $_metal;
 
+    /**
+     * 
+     * @param number $metal
+     */
     public function setMetal($metal)
     {
         $this->_metal = (float) $metal;
     }
 
+    /**
+     * @return void
+     */
     protected function mixColor()
     {
         $this->_rgbaValue[0] = min(1, $this->_rgbaValue[0] * $this->_light[0] + $this->_metal * $this->_light[0]);

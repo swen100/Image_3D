@@ -16,8 +16,6 @@ abstract class Driver
 {
 
     /**
-     * Worlds polygones
-     *
      * @var mixed
      */
     protected $_image;
@@ -27,9 +25,8 @@ abstract class Driver
      *
      * Initialize the image with given width and height
      *
-     * @param number $x Width
-     * @param number $y Height
-     *
+     * @param number $x width of the image
+     * @param number $y height of the image
      * @return void
      */
     abstract public function createImage($x, $y);
@@ -40,7 +37,6 @@ abstract class Driver
      * Set the background for the image
      *
      * @param Color $color Backgroundcolor
-     *
      * @return void
      */
     abstract public function setBackground(Color $color);
@@ -51,7 +47,6 @@ abstract class Driver
      * Draws a flat shaded polygon. Methd uses the polygon color
      *
      * @param Paintable\Polygon $polygon
-     *
      * @return void
      */
     abstract public function drawPolygon(\Image3D\Paintable\Polygon $polygon);
@@ -63,7 +58,6 @@ abstract class Driver
      * points and tries to create a gradient filling for the polygon.
      *
      * @param Paintable\Polygon $polygon
-     *
      * @return void
      */
     abstract public function drawGradientPolygon(\Image3D\Paintable\Polygon $polygon);
@@ -71,11 +65,10 @@ abstract class Driver
     /**
      * Save image to file
      *
-     * @param string $file File
-     *
+     * @param string $filePath Path to the file where to write the data.
      * @return bool
      */
-    abstract public function save($file): bool;
+    abstract public function save(string $filePath): bool;
 
     /**
      * Return supported shadings
