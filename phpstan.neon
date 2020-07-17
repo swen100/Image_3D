@@ -1,0 +1,33 @@
+parameters:
+    stubFiles:
+        - vendor/allegro/php-protobuf/stubs/ProtobufMessage.php
+        - stubs/GEOSConstants.php
+        - stubs/GEOSFunctions.php
+        - stubs/GEOSGeometry.php
+        - stubs/GEOSWKBReader.php
+        - stubs/GEOSWKBWriter.php
+        - stubs/GEOSWKTReader.php
+        - stubs/GEOSWKTWriter.php
+    scanDirectories:
+        - vendor/phalcon/ide-stubs/src/Phalcon
+        - app/controllers
+        - app/library
+        - app/models
+    scanFiles:
+        - public/phpMapserver.php
+        - public/application.php
+        - app/Module.php
+        - app/library/Helper/helper.php
+        - app/library/Geometry/wkt.php
+        - stubs/PDFlib.php
+    excludes_analyse:
+        - app/library/WMS/Dem.php
+        - app/library/WMS/HillShade.php
+        - app/library/unused/*
+        - vendor/allegro/php-protobuf/stubs/ProtobufMessage.php
+    ignoreErrors:
+        - '#Constant OnlineResource not found.#'
+        - '#Constant LatLonBoundingBox_[a-zA-Z]+ not found.#'
+        - '#Constant xlink_[a-zA-Z_]+ not found.#'
+        - '#Constant Contact[a-zA-Z_]+ not found.#'
+        - '#Argument of an invalid type Phalcon\\Mvc\\Model\\ResultsetInterface supplied for foreach, only iterables .+#'
