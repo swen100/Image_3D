@@ -6,7 +6,7 @@
  * @param string $class The fully-qualified class name.
  * @return void
  */
-spl_autoload_register(function ($class) {
+function myAutoloader($class) {
     #echo @get_called_class() . " called: " . "<br>";
     #echo "<b>$class</b><br>\n";
     
@@ -39,7 +39,9 @@ spl_autoload_register(function ($class) {
     if (file_exists($file)) {
         require_once $file;
     }
-});
+}
+
+spl_autoload_register('myAutoloader');
 
 /**
  *

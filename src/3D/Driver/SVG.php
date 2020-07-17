@@ -145,7 +145,7 @@ EOF;
         $this->_addPolygon(sprintf("\t<polygon id=\"[id]\" points=\"%s\" style=\"fill: url(#%s); stroke: none; fill-opacity: 1;\" />\n", $list, $lg));
     }
 
-    public function save($file)
+    public function save($file): bool
     {
         $this->_image .= sprintf("\t<defs id=\"defs%d\">\n", $this->_id++);
         $this->_image .= implode('', $this->_gradients);
@@ -153,7 +153,8 @@ EOF;
 
         $this->_image .= implode('', $this->_polygones);
         $this->_image .= "</svg>\n";
-        file_put_contents($file, $this->_image);
+        
+        return file_put_contents($file, $this->_image) !== false;
     }
 
     public function getSupportedShading(): array

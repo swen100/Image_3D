@@ -528,7 +528,7 @@ EOF;
         return $controls;
     }
 
-    public function save($file)
+    public function save($file): bool
     {
         // Start of SVG definition area
         $this->_image .= sprintf("\t<defs id=\"defs%d\">\n", $this->_id++);
@@ -574,7 +574,8 @@ EOF;
         $this->_image .= $this->_getControls();
 
         $this->_image .= "</svg>\n";
-        file_put_contents($file, $this->_image);
+        
+        return file_put_contents($file, $this->_image) !== false;
     }
 
     public function getSupportedShading(): array

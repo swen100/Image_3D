@@ -32,9 +32,9 @@ class Ds extends \Image3D\Paintable\Base3DObject
     protected $_objects = [];
     
     /**
-     * @var array
+     * @var Chunk
      */
-    protected $_chunks = [];
+    protected $_chunks;
 
     /**
      *

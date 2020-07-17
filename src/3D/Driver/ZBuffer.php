@@ -192,7 +192,7 @@ class ZBuffer extends \Image3D\Driver
         return false;
     }
 
-    public function save($file)
+    public function save($file): bool
     {
         foreach ($this->_heigth as $x => $row) {
             foreach ($row as $y => $points) {
@@ -209,6 +209,8 @@ class ZBuffer extends \Image3D\Driver
             case 'jpeg':
                 return imagejpeg($this->_image, $file);
         }
+        
+        return false;
     }
 
     public function getSupportedShading(): array

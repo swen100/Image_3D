@@ -102,7 +102,7 @@ class ImageMagick extends \Image3D\Driver
         }
     }
 
-    public function save($file)
+    public function save($file): bool
     {
         $command = '';
         #$commandCount = 1;
@@ -119,7 +119,7 @@ class ImageMagick extends \Image3D\Driver
                 $command = '';
             }
         }
-        shell_exec($command);
+        return shell_exec($command) !== null;
     }
 
     public function getSupportedShading(): array

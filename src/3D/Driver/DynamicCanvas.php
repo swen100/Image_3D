@@ -43,7 +43,7 @@ class DynamicCanvas extends \Image3D\Driver
      *
      * @var string
      */
-    protected $_background = [];
+    protected $_background = '';
 
     /**
      * Name of the Render created from the filename
@@ -301,11 +301,11 @@ class DynamicCanvas extends \Image3D\Driver
      *
      * @param string $file File to write output to
      *
-     * @return void
+     * @return bool
      */
-    public function save($file)
+    public function save($file): bool
     {
-        file_put_contents($file, $this->getJs());
+        return file_put_contents($file, $this->getJs()) !== false;
     }
 
     /**

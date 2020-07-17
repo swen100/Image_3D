@@ -33,14 +33,14 @@ class Image_3D
      *
      * @var array
      */
-    protected $_objects;
+    protected $_objects = [];
 
     /**
      * List of lights
      *
      * @var array
      */
-    protected $_lights;
+    protected $_lights = [];
 
     /**
      * Active renderer
@@ -66,7 +66,7 @@ class Image_3D
      *
      * @var array
      */
-    protected $_optionSet;
+    protected $_optionSet = [];
 
     /**
      * Begin of world creation
@@ -94,17 +94,9 @@ class Image_3D
      */
     public function __construct()
     {
-        $this->_objects = [];
-        $this->_lights = [];
-        $this->_renderer = null;
-        $this->_driver = null;
-        $this->_color = null;
-
         $this->_option[self::IMAGE_3D_OPTION_FILLED] = true;
         $this->_option[self::IMAGE_3D_OPTION_BF_CULLING] = true;
-
-        $this->_optionSet = [];
-
+        
         $this->_start = microtime(true);
     }
 

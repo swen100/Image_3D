@@ -194,8 +194,8 @@ class Color
     public function calculateColor()
     {
         if (!count($this->_lights)) {
-            $this->_rgbaValue = array(0, 0, 0, $this->_rgbaValue[3]);
-            return true;
+            $this->_rgbaValue = [0, 0, 0, $this->_rgbaValue[3]];
+            return;
         }
 
         $this->calcLights();
@@ -205,9 +205,9 @@ class Color
     /**
      * Merge color with other colors
      *
-     * @return void
+     * @return Color
      */
-    public function merge($colors)
+    public function merge($colors): self
     {
         $count = 0;
         foreach ($colors as $color) {

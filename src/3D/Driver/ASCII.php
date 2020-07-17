@@ -236,7 +236,7 @@ class ASCII extends \Image3D\Driver
         return '';
     }
 
-    public function save($file)
+    public function save($file): bool
     {
         $asciiWidth = (int) ceil($this->_size[0] / 2);
         $asciiHeight = (int) ceil($this->_size[1] / 6);
@@ -273,8 +273,10 @@ class ASCII extends \Image3D\Driver
             $output .= "\n";
         }
         $fp = fopen($file, 'w');
-        fwrite($fp, $output);
+        $success = fwrite($fp, $output);
         fclose($fp);
+        
+        return $success !== false;
     }
 
     public function getSupportedShading(): array

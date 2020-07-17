@@ -56,7 +56,7 @@ class Coordinate
      *
      * @var array
      */
-    protected $_screenCoordinates;
+    protected $_screenCoordinates = [];
 
     /**
      * Constructor for Image_3D_Coordinate
@@ -90,7 +90,7 @@ class Coordinate
     {
         // Point already transformed?
         if (($id !== null) && ($this->_lastTransformation === $id)) {
-            return false;
+            return;
         }
 
         $this->_lastTransformation = $id;
@@ -110,7 +110,7 @@ class Coordinate
                 $point->getZ() * $matrix->getValue(2, 2) +
                 $matrix->getValue(3, 2);
 
-        $this->_screenCoordinates = null;
+        $this->_screenCoordinates = [];
     }
 
     /**
@@ -185,7 +185,7 @@ class Coordinate
      */
     public function setScreenCoordinates($x, $y)
     {
-        $this->_screenCoordinates = array((float) $x, (float) $y);
+        $this->_screenCoordinates = [(float) $x, (float) $y];
     }
 
     /**
@@ -197,7 +197,7 @@ class Coordinate
      *
      * @return  array    Screen coordinates
      */
-    public function getScreenCoordinates()
+    public function getScreenCoordinates(): array
     {
         return $this->_screenCoordinates;
     }

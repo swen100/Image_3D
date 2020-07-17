@@ -121,8 +121,8 @@ abstract class Renderer
         $this->_lights = [];
         $this->_size = [0, 0];
 
-        $this->_background = null;
-        $this->_driver = null;
+        unset($this->_background);
+        unset($this->_driver);
 
         $this->_shading = self::SHADE_PHONG;
     }
@@ -182,7 +182,7 @@ abstract class Renderer
      * Add objects to renderer. Only objects which are added will be
      * displayed
      *
-     * @param array $objects Array of objects
+     * @param array|Base3DObject $objects Array of objects or alreaady a Base3DObject
      *
      * @return void
      */

@@ -73,9 +73,9 @@ abstract class Driver
      *
      * @param string $file File
      *
-     * @return void
+     * @return bool
      */
-    abstract public function save($file);
+    abstract public function save($file): bool;
 
     /**
      * Return supported shadings

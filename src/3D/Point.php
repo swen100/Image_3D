@@ -17,29 +17,14 @@ namespace Image3D;
 class Point extends Coordinate implements Interface_Enlightenable
 {
 
-    protected $_option;
+    protected $_option = [];
     protected $_lastTransformation;
     protected $_screenCoordinates;
-    protected $_processed;
+    protected $_processed = false;
     protected $_normale;
     protected $_vectors;
-    protected $_colors;
+    protected $_colors = [];
     protected $_color;
-
-    public function __construct($x, $y, $z)
-    {
-        parent::__construct($x, $y, $z);
-
-        $this->_option = array();
-
-        $this->_lastTransformation = null;
-        $this->_screenCoordinates = null;
-
-        $this->_processed = false;
-
-        $this->_colors = array();
-        $this->_color = null;
-    }
 
     public function setOption($option, $value)
     {
@@ -49,7 +34,8 @@ class Point extends Coordinate implements Interface_Enlightenable
     public function calculateColor($lights)
     {
         if (!count($lights)) {
-            $this->_color = new Color(0, 0, 0, end($this->getColor()->getValues()));
+            $values = $this->getColor()->getValues();
+            $this->_color = new Color(0, 0, 0, end($values));
             return false;
         }
 

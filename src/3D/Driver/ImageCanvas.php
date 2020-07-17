@@ -59,9 +59,9 @@ class ImageCanvas extends \Image3D\Driver
         $this->drawPolygon($polygon);
     }
 
-    public function save($file)
+    public function save($file): bool
     {
-        $this->_image->save(array('filename' => $file));
+        return $this->_image->save(['filename' => $file]) !== false;
     }
 
     public function getSupportedShading(): array
