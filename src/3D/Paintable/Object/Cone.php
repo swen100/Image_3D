@@ -28,13 +28,13 @@ class Cone extends \Image3D\Paintable\Base3DObject
             $points[] = $actual;
 
             // Build polygon
-            $this->_addPolygon(new Polygon($top, $last, $actual));
-            $this->_addPolygon(new Polygon($bottom, $last, $actual));
+            $this->addPolygon(new Polygon($top, $last, $actual));
+            $this->addPolygon(new Polygon($bottom, $last, $actual));
             $last = $actual;
         }
 
         // Build closing polygon
-        $this->_addPolygon(new Polygon($top, $last, $points[0]));
-        $this->_addPolygon(new Polygon($bottom, $last, $points[0]));
+        $this->addPolygon(new Polygon($top, $last, $points[0]));
+        $this->addPolygon(new Polygon($bottom, $last, $points[0]));
     }
 }

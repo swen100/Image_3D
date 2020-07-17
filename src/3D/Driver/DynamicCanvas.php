@@ -279,7 +279,7 @@ class DynamicCanvas extends \Image3D\Driver
             'Startup.js'
         ];
         
-        $loadJsFile = function($jsfile) {
+        $loadJsFile = function ($jsfile) {
             $dataDir = dirname(__FILE__) . '/../../../test/data/DynamicCanvas/';
             return is_dir($dataDir) ?
                 file_get_contents($dataDir . $jsfile) :
@@ -313,7 +313,7 @@ class DynamicCanvas extends \Image3D\Driver
      *
      * @return array Shading methods supported by this driver
      */
-    public function getSupportedShading()
+    public function getSupportedShading(): array
     {
         return array(Renderer::SHADE_NO, Renderer::SHADE_FLAT);
     }

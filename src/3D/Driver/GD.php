@@ -114,7 +114,7 @@ class GD extends \Image3D\Driver
     public function setFiletye($type): bool
     {
         $type = strtolower($type);
-        if (\in_array($type, array('png', 'jpeg'))) {
+        if (\in_array($type, ['png', 'jpeg'])) {
             $this->_filetype = $type;
             return true;
         }
@@ -135,6 +135,8 @@ class GD extends \Image3D\Driver
             case 'jpeg':
                 return imagejpeg($this->_image, $filePath);
         }
+        
+        return false;
     }
 
     /**

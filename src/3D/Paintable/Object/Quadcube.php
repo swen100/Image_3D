@@ -45,15 +45,15 @@ class Quadcube extends \Image3D\Paintable\Base3DObject
         $this->_points[8] = new Point($x / 2, $y / 2, $z / 2);
 
         // Oben & Unten
-        $this->_addPolygon(new Polygon($this->_points[3], $this->_points[4], $this->_points[8], $this->_points[7]));
-        $this->_addPolygon(new Polygon($this->_points[2], $this->_points[1], $this->_points[5], $this->_points[6]));
+        $this->addPolygon(new Polygon($this->_points[3], $this->_points[4], $this->_points[8], $this->_points[7]));
+        $this->addPolygon(new Polygon($this->_points[2], $this->_points[1], $this->_points[5], $this->_points[6]));
 
         // Links & Rechts
-        $this->_addPolygon(new Polygon($this->_points[3], $this->_points[1], $this->_points[2], $this->_points[4]));
-        $this->_addPolygon(new Polygon($this->_points[8], $this->_points[6], $this->_points[5], $this->_points[7]));
+        $this->addPolygon(new Polygon($this->_points[3], $this->_points[1], $this->_points[2], $this->_points[4]));
+        $this->addPolygon(new Polygon($this->_points[8], $this->_points[6], $this->_points[5], $this->_points[7]));
 
         // Rueck- & Frontseite
-        $this->_addPolygon(new Polygon($this->_points[2], $this->_points[6], $this->_points[8], $this->_points[4]));
-        $this->_addPolygon(new Polygon($this->_points[1], $this->_points[3], $this->_points[7], $this->_points[5]));
+        $this->addPolygon(new Polygon($this->_points[2], $this->_points[6], $this->_points[8], $this->_points[4]));
+        $this->addPolygon(new Polygon($this->_points[1], $this->_points[3], $this->_points[7], $this->_points[5]));
     }
 }

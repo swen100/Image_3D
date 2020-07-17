@@ -24,26 +24,26 @@ abstract class Renderer
      *
      * @var array
      */
-    protected $_polygones;
+    protected $_polygones = [];
 
     /**
      * Worlds points
      *
      * @var array
      */
-    protected $_points;
+    protected $_points = [];
 
     /**
      * Worlds lights
      *
      * @var array
      */
-    protected $_lights;
+    protected $_lights = [];
 
     /**
      * Driver we use
      *
-     * @var array
+     * @var Driver
      */
     protected $_driver;
 
@@ -52,7 +52,7 @@ abstract class Renderer
      *
      * @var array
      */
-    protected $_size;
+    protected $_size = [0, 0];
 
     /**
      * Backgroundcolol
@@ -66,7 +66,7 @@ abstract class Renderer
      *
      * @var integer
      */
-    protected $_shading;
+    protected $_shading = 3;
 
     /*
      * No Shading
@@ -78,25 +78,31 @@ abstract class Renderer
      * Flat Shading
      */
     const SHADE_FLAT = 1;
+    
     /*
      * Gauroud Shading
      */
     const SHADE_GAUROUD = 2;
+    
     /*
      * Phong Shading
      */
     const SHADE_PHONG = 3;
 
     /**
+     * @var array
+     */
+    private $_objects = [];
+
+    /**
      * Constructor for Image_3D_Renderer
      *
      * Initialises the environment
      *
-     * @return  Renderer           Instance of Renderer
+     * @return Renderer           Instance of Renderer
      */
     public function __construct()
     {
-        $this->reset();
     }
 
     /**
@@ -104,19 +110,18 @@ abstract class Renderer
      *
      * Initialises the environment
      *
-     * @return  void
+     * @return void
      */
     public function reset()
     {
-        $this->_objects = array();
-        $this->_polygones = array();
+        $this->_objects = [];
+        $this->_polygones = [];
 
-        $this->_points = array();
-        $this->_lights = array();
-        $this->_size = array(0, 0);
+        $this->_points = [];
+        $this->_lights = [];
+        $this->_size = [0, 0];
 
         $this->_background = null;
-
         $this->_driver = null;
 
         $this->_shading = self::SHADE_PHONG;
@@ -130,9 +135,9 @@ abstract class Renderer
      *
      * @param Base3DObject $object Object to merge
      *
-     * @return  void
+     * @return void
      */
-    protected function _getPolygones(Base3DObject $object)
+    protected function getPolygones(Base3DObject $object)
     {
         $newPolygones = $object->getPolygones();
 
@@ -158,18 +163,18 @@ abstract class Renderer
      *
      * @param Point $point Point to process
      *
-     * @return  void
+     * @return void
      */
-    abstract protected function _calculateScreenCoordiantes(Point $point);
+    abstract protected function calculateScreenCoordiantes(Point $point);
 
     /**
      * Sort polygones
      *
      * Set the order the polygones will be displayed
      *
-     * @return  void
+     * @return void
      */
-    abstract protected function _sortPolygones();
+    abstract protected function sortPolygones();
 
     /**
      * Add objects to renderer
@@ -179,18 +184,18 @@ abstract class Renderer
      *
      * @param array $objects Array of objects
      *
-     * @return  void
+     * @return void
      */
     public function addObjects($objects)
     {
         if (is_array($objects)) {
             foreach ($objects as $object) {
                 if ($object instanceof Base3DObject) {
-                    $this->_getPolygones($object);
+                    $this->getPolygones($object);
                 }
             }
         } elseif ($objects instanceof Base3DObject) {
-            $this->_getPolygones($objects);
+            $this->getPolygones($objects);
         }
     }
 
@@ -202,7 +207,7 @@ abstract class Renderer
      *
      * @param array $lights Array of objects
      *
-     * @return  void
+     * @return void
      */
     public function addLights($lights)
     {
@@ -217,7 +222,7 @@ abstract class Renderer
      * @param integer $x Width
      * @param integer $y Height
      *
-     * @return  void
+     * @return void
      */
     public function setSize($x, $y)
     {
@@ -231,7 +236,7 @@ abstract class Renderer
      *
      * @param Color $color Backgroundcolor
      *
-     * @return  void
+     * @return void
      */
     public function setBackgroundColor(Color $color)
     {
@@ -246,7 +251,7 @@ abstract class Renderer
      *
      * @param integer $shading Shading quality
      *
-     * @return  void
+     * @return void
      */
     public function setShading($shading)
     {
@@ -260,7 +265,7 @@ abstract class Renderer
      *
      * @param Driver $driver Driver to use
      *
-     * @return  void
+     * @return void
      */
     public function setDriver(Driver $driver)
     {
@@ -274,7 +279,7 @@ abstract class Renderer
      *
      * Return the number of used polygones in this image
      *
-     * @return  integer     Number of Polygones
+     * @return integer     Number of Polygones
      */
     public function getPolygonCount()
     {
@@ -286,7 +291,7 @@ abstract class Renderer
      *
      * Return the number of used points in this image
      *
-     * @return  integer     Number of Points
+     * @return integer     Number of Points
      */
     public function getPointCount()
     {
@@ -298,7 +303,7 @@ abstract class Renderer
      *
      * Return the number of used lights in this image
      *
-     * @return  integer     Number of Lights
+     * @return integer     Number of Lights
      */
     public function getLightCount()
     {
@@ -311,9 +316,9 @@ abstract class Renderer
      * Let each polygon calculate his color based on the lights which are
      * registered for this image
      *
-     * @return  void
+     * @return void
      */
-    protected function _calculatePolygonColors()
+    protected function calculatePolygonColors()
     {
         foreach ($this->_polygones as $polygon) {
             $polygon->calculateColor($this->_lights);
@@ -327,9 +332,9 @@ abstract class Renderer
      * calculated on his surrounding polygones and the lights which are
      * registered for this image
      *
-     * @return  void
+     * @return void
      */
-    protected function _calculatePointColors()
+    protected function calculatePointColors()
     {
         foreach ($this->_polygones as $polygon) {
             $normale = $polygon->getNormale();
@@ -352,9 +357,9 @@ abstract class Renderer
      *
      * Draw all polygones concerning the type of shading wich was set for the renderer
      *
-     * @return  void
+     * @return void
      */
-    protected function _shade()
+    protected function shade()
     {
         switch ($this->_shading) {
             case self::SHADE_NO:
@@ -364,21 +369,21 @@ abstract class Renderer
                 break;
 
             case self::SHADE_FLAT:
-                $this->_calculatePolygonColors();
+                $this->calculatePolygonColors();
                 foreach ($this->_polygones as $polygon) {
                     $this->_driver->drawPolygon($polygon);
                 }
                 break;
 
             case self::SHADE_GAUROUD:
-                $this->_calculatePointColors();
+                $this->calculatePointColors();
                 foreach ($this->_polygones as $polygon) {
                     $this->_driver->drawPolygon($polygon);
                 }
                 break;
 
             default:
-                throw new Exception('Shading type not supported.');
+                throw new \Exception('Shading type not supported.');
         }
     }
 
@@ -389,9 +394,9 @@ abstract class Renderer
      *
      * @param string $file Filename
      *
-     * @return  void
+     * @return bool
      */
-    public function render($file)
+    public function render($file): bool
     {
         if (empty($this->_driver)) {
             return false;
@@ -399,19 +404,21 @@ abstract class Renderer
 
         // Calculate screen coordinates
         foreach ($this->_points as $point) {
-            $this->_calculateScreenCoordiantes($point);
+            $this->calculateScreenCoordiantes($point);
         }
 
-        $this->_sortPolygones();
+        $this->sortPolygones();
 
         // Draw background
         $this->_driver->createImage($this->_size[0] * 2, $this->_size[1] * 2);
         $this->_driver->setBackground($this->_background);
 
         // Create polygones in driver
-        $this->_shade();
+        $this->shade();
 
         // Save image
         $this->_driver->save($file);
+        
+        return true;
     }
 }

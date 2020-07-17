@@ -16,15 +16,24 @@ class ImageMagick extends \Image3D\Driver
      * @access protected
      */
     protected $_commandQueue = [];
+    
+    /**
+     * @var array
+     */
+    private $_dimensions = [];
+    
+    /**
+     * @var string
+     */
+    private $_filetype;
 
     public function __construct()
     {
-        parent::__construct();
     }
 
     public function createImage($x, $y)
     {
-        $this->_image = tempnam();
+        $this->_image = tempnam(sys_get_temp_dir(), 'IMG');
 
         $this->_dimensions = ['x' => $x, 'y' => $y];
 
@@ -85,7 +94,7 @@ class ImageMagick extends \Image3D\Driver
     public function setFiletye($type)
     {
         $type = strtolower($type);
-        if (in_array($type, array('png', 'jpeg'))) {
+        if (in_array($type, ['png', 'jpeg'])) {
             $this->_filetype = $type;
             return true;
         } else {
@@ -113,8 +122,11 @@ class ImageMagick extends \Image3D\Driver
         shell_exec($command);
     }
 
-    public function getSupportedShading()
+    public function getSupportedShading(): array
     {
-        return array(Renderer::SHADE_NO, Renderer::SHADE_FLAT);
+        return [
+            Renderer::SHADE_NO,
+            Renderer::SHADE_FLAT
+        ];
     }
 }

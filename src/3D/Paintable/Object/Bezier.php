@@ -20,7 +20,7 @@ class Bezier extends Map
 {
 
     /**
-     * 
+     *
      * @param array $options
      * @return void
      */
@@ -75,7 +75,7 @@ class Bezier extends Map
     }
 
     /**
-     * 
+     *
      * @param number $n
      * @param number $k
      * @return int
@@ -103,7 +103,7 @@ class Bezier extends Map
     }
 
     /**
-     * 
+     *
      * @param number $i
      * @param number $n
      * @param number $t

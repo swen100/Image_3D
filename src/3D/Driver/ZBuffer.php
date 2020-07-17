@@ -19,16 +19,12 @@ use Image3D\Renderer;
  */
 class ZBuffer extends \Image3D\Driver
 {
-    protected $_filetype;
-    protected $_points;
-    protected $_heigth;
+    protected $_filetype = 'png';
+    protected $_points = [];
+    protected $_heigth = [];
 
     public function __construct()
     {
-        $this->_filetype = 'png';
-
-        $this->_points = array();
-        $this->_heigth = array();
     }
 
     public function createImage($x, $y)
@@ -38,7 +34,7 @@ class ZBuffer extends \Image3D\Driver
         imageSaveAlpha($this->_image, true);
     }
 
-    protected function _getColor(Color $color, $alpha = 1.)
+    protected function getColor(Color $color, $alpha = 1.)
     {
         $values = $color->getValues();
 
@@ -68,11 +64,11 @@ class ZBuffer extends \Image3D\Driver
 
     public function setBackground(Color $color)
     {
-        $bg = $this->_getColor($color);
+        $bg = $this->getColor($color);
         imagefill($this->_image, 1, 1, $bg);
     }
 
-    protected function _drawLine(Point $p1, Point $p2)
+    protected function drawLine(Point $p1, Point $p2)
     {
         list($x1, $y1) = $p1->getScreenCoordinates();
         list($x2, $y2) = $p2->getScreenCoordinates();
@@ -86,7 +82,7 @@ class ZBuffer extends \Image3D\Driver
         $ydiff = ($y2 - $y1) / $steps;
         $zdiff = ($z2 - $z1) / $steps;
 
-        $points = array('height' => array(), 'coverage' => array());
+        $points = ['height' => [], 'coverage' => []];
         for ($i = 0; $i < $steps; $i++) {
             $x = $x1 + $i * $xdiff;
 
@@ -131,13 +127,13 @@ class ZBuffer extends \Image3D\Driver
         return $points;
     }
 
-    protected function _getPolygonOutlines($pointArray)
+    protected function getPolygonOutlines($pointArray)
     {
-        $map = array('height' => array(), 'coverage' => array());
+        $map = array('height' => [], 'coverage' => []);
 
         $last = end($pointArray);
         foreach ($pointArray as $point) {
-            $line = $this->_drawLine($last, $point);
+            $line = $this->drawLine($last, $point);
             $last = $point;
             // Merge line to map
             foreach ($line['height'] as $x => $row) {
@@ -153,7 +149,7 @@ class ZBuffer extends \Image3D\Driver
 
     public function drawPolygon(Polygon $polygon)
     {
-        $points = $this->_getPolygonOutlines($polygon->getPoints());
+        $points = $this->getPolygonOutlines($polygon->getPoints());
 
         foreach ($points['coverage'] as $x => $row) {
             if (count($row) < 2) {
@@ -168,15 +164,15 @@ class ZBuffer extends \Image3D\Driver
             $zStep = ($zEnd - $zStart) / ($end - $start);
 
             // Starting point
-            $this->_heigth[$x][$start][(int) ($zStart * 100)] = $this->_getColor($polygon->getColor(), $points['coverage'][$x][$start]);
+            $this->_heigth[$x][$start][(int) ($zStart * 100)] = $this->getColor($polygon->getColor(), $points['coverage'][$x][$start]);
 
             // the way between
             for ($y = $start + 1; $y < $end; $y++) {
-                $this->_heigth[$x][$y][(int) (($zStart + $zStep * ($y - $start)) * 100)] = $this->_getColor($polygon->getColor());
+                $this->_heigth[$x][$y][(int) (($zStart + $zStep * ($y - $start)) * 100)] = $this->getColor($polygon->getColor());
             }
 
             // Ending point
-            $this->_points[$x][$end][(int) ($zEnd * 100)] = $this->_getColor($polygon->getColor(), $points['coverage'][$x][$end]);
+            $this->_points[$x][$end][(int) ($zEnd * 100)] = $this->getColor($polygon->getColor(), $points['coverage'][$x][$end]);
         }
     }
 
@@ -188,17 +184,16 @@ class ZBuffer extends \Image3D\Driver
     public function setFiletye($type)
     {
         $type = strtolower($type);
-        if (in_array($type, array('png', 'jpeg'))) {
+        if (in_array($type, ['png', 'jpeg'])) {
             $this->_filetype = $type;
             return true;
-        } else {
-            return false;
         }
+        
+        return false;
     }
 
     public function save($file)
     {
-
         foreach ($this->_heigth as $x => $row) {
             foreach ($row as $y => $points) {
                 krsort($points);
@@ -216,9 +211,11 @@ class ZBuffer extends \Image3D\Driver
         }
     }
 
-    public function getSupportedShading()
+    public function getSupportedShading(): array
     {
-        return array(Renderer::SHADE_NO,
-            Renderer::SHADE_FLAT);
+        return [
+            Renderer::SHADE_NO,
+            Renderer::SHADE_FLAT
+        ];
     }
 }

@@ -19,27 +19,41 @@ use Image3D\Matrix;
 class Ds extends \Image3D\Paintable\Base3DObject
 {
 
+    /**
+     * @var string
+     */
     protected $_file;
-    protected $_fileSize;
-    protected $_objects;
-    protected $_chunks;
+    
+    #protected $_fileSize;
+    
+    /**
+     * @var array
+     */
+    protected $_objects = [];
+    
+    /**
+     * @var array
+     */
+    protected $_chunks = [];
 
+    /**
+     *
+     * @param string $file
+     * @throws \Exception
+     */
     public function __construct($file)
     {
         parent::__construct();
-        $this->_points = array();
-        $this->_chunks = array();
-        $this->_objects = array();
 
         if (!is_file($file) || !is_readable($file)) {
             throw new \Exception("3ds file ($file) could not be loaded.");
         }
         $this->_file = $file;
 
-        $this->_readChunks();
+        $this->readChunks();
     }
 
-    protected function _readChunks()
+    protected function readChunks()
     {
         $this->_chunks = new Chunk(Chunk::MAIN3DS, substr(file_get_contents($this->_file), 6));
         $this->_chunks->readChunks();

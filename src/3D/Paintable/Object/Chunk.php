@@ -2,7 +2,7 @@
 
 namespace Image3D\Paintable\Object;
 
-class /*Image_3D_*/Chunk
+class Chunk
 {
     protected $type;
     protected $content;
@@ -67,6 +67,11 @@ class /*Image_3D_*/Chunk
     const DISABLED = 0x0010;
     const BOGUS = 0x0011;
 
+    /**
+     *
+     * @param number $type
+     * @param string $content
+     */
     public function __construct($type, $content)
     {
         $this->type = (int) $type;
@@ -90,7 +95,7 @@ class /*Image_3D_*/Chunk
             $chunkLength = $this->getDWord(substr($string, $position, 4)) - 6;
             $position += 4;
 
-            $this->chunks[] = new /*Image_3D_*/Chunk($type, substr($string, $position, $chunkLength));
+            $this->chunks[] = new Chunk($type, substr($string, $position, $chunkLength));
             $position += $chunkLength;
         }
     }

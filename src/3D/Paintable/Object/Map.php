@@ -74,11 +74,11 @@ class Map extends \Image3D\Paintable\Base3DObject
             for ($i = 1; $i < $newCount; $i++) {
                 if (($i * $top) > ($k * $bottom + $bottom / 2)) {
                     // Nach unten geoeffnetes Polygon einfuegen /\
-                    $this->_addPolygon(new Polygon($this->_points[$newRow][$i - 1], $this->_points[$lastRow][$k + 1], $this->_points[$lastRow][$k]));
+                    $this->addPolygon(new Polygon($this->_points[$newRow][$i - 1], $this->_points[$lastRow][$k + 1], $this->_points[$lastRow][$k]));
                     $k++;
                 }
                 // Nach oben geoeffnetes Polygon einfuegen \/
-                $this->_addPolygon(new Polygon($this->_points[$newRow][$i - 1], $this->_points[$newRow][$i], $this->_points[$lastRow][$k]));
+                $this->addPolygon(new Polygon($this->_points[$newRow][$i - 1], $this->_points[$newRow][$i], $this->_points[$lastRow][$k]));
             }
         }
         return true;

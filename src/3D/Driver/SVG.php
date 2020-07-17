@@ -156,8 +156,12 @@ EOF;
         file_put_contents($file, $this->_image);
     }
 
-    public function getSupportedShading()
+    public function getSupportedShading(): array
     {
-        return array(Renderer::SHADE_NO, Renderer::SHADE_FLAT, Renderer::SHADE_GAUROUD);
+        return [
+            Renderer::SHADE_NO,
+            Renderer::SHADE_FLAT,
+            Renderer::SHADE_GAUROUD
+        ];
     }
 }

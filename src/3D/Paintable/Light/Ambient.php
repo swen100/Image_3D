@@ -17,16 +17,21 @@ namespace Image3D\Paintable\Light;
 class Ambient extends \Image3D\Paintable\Light
 {
 
-    public function __construct($x = 0, $y = 0, $z = 0, $parameter = array())
+    public function __construct()
     {
         parent::__construct(0, 0, 0);
     }
 
-    public function getColor(\Image3D\Interface_Enlightenable $polygon)
+    /**
+     *
+     * @param \Image3D\Interface_Enlightenable $polygon
+     * @return \Image3D\Color
+     */
+    public function getColor(\Image3D\Interface_Enlightenable $polygon): \Image3D\Color
     {
         $color = clone ($polygon->getColor());
-
         $color->addLight($this->_color, 1);
+        
         return $color;
     }
 }

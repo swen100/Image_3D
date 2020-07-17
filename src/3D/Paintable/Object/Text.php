@@ -38,13 +38,13 @@ class Text extends \Image3D\Paintable\Base3DObject
      *
      * @param string $string
      * @throws \Exception
+     * @return void
      */
     public function __construct($string)
     {
         parent::__construct();
 
         $this->_text = (string) $string;
-        $this->_points = array();
         $this->_characterSpacing = 5.5;
 
         $textdata = '../../data/TextData.dat';
@@ -62,6 +62,7 @@ class Text extends \Image3D\Paintable\Base3DObject
     /**
      *
      * @param number $charSpacing
+     * @return void
      */
     public function setCharSpacing($charSpacing)
     {
@@ -69,7 +70,7 @@ class Text extends \Image3D\Paintable\Base3DObject
     }
 
     /**
-     *
+     * @return void
      */
     protected function generateCubes()
     {
@@ -88,7 +89,7 @@ class Text extends \Image3D\Paintable\Base3DObject
                     $tmp->transform(new Move(array($x + $i * $this->_characterSpacing, $y, 0)));
                     $polygones = $tmp->getPolygones();
                     foreach ($polygones as $polygon) {
-                        $this->_addPolygon($polygon);
+                        $this->addPolygon($polygon);
                     }
                     unset($tmp);
                 }

@@ -2,10 +2,14 @@
 
 namespace Image3D\Paintable\Object;
 
-class /*Image_3D_*/ChunkTriMesh extends /*Image_3D_*/ Chunk
+class ChunkTriMesh extends Chunk
 {
 
-    protected $matrix;
+    #protected $matrix;
+    
+    /**
+     * @var DsObject
+     */
     protected $object;
 
     public function __construct($type, $content, $object)
@@ -15,7 +19,6 @@ class /*Image_3D_*/ChunkTriMesh extends /*Image_3D_*/ Chunk
         $this->object = $object;
 
         $this->readChunks();
-
         $this->getPoints();
         $this->getFaces();
     }
@@ -23,6 +26,7 @@ class /*Image_3D_*/ChunkTriMesh extends /*Image_3D_*/ Chunk
     protected function getPoints()
     {
         $vertexlists = $this->getChunksByType(Chunk::TRI_VERTEXL);
+        
         foreach ($vertexlists as $vertexlist) {
             $points = $vertexlist->getContent();
             $count = $this->getWord(substr($points, 0, 2));
@@ -61,7 +65,6 @@ class /*Image_3D_*/ChunkTriMesh extends /*Image_3D_*/ Chunk
         $translists = $this->getChunksByType(Chunk::TRI_LOCAL);
         foreach ($translists as $translist) {
             $trans = $translist->getContent();
-
             echo "Trans: " . strlen($trans), "\n";
         }
     }
@@ -69,6 +72,7 @@ class /*Image_3D_*/ChunkTriMesh extends /*Image_3D_*/ Chunk
     public function debug()
     {
         parent::debug();
-        printf("Trimesh with %d (0x%04x) points - Pointsize: %.2f\n", $this->pointCount, $this->pointCount, $this->size / $this->pointCount);
+        $numPoints = $this->object->getNumPoints();
+        printf("Trimesh with %d (0x%04x) points - Pointsize: %.2f\n", $numPoints, $numPoints, $this->size / $numPoints);
     }
 }

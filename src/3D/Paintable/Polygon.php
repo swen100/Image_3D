@@ -32,8 +32,8 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
 
     public function __construct()
     {
-        $this->_points = array();
-        $this->_option = array();
+        $this->_points = [];
+        $this->_option = [];
         $this->_color = null;
 
         $this->_colorCalculated = false;
@@ -42,7 +42,7 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         $this->_normale = null;
         $this->_position = null;
 
-        $this->_boundingRect = array(null, null, null, null, null, null);
+        $this->_boundingRect = [null, null, null, null, null, null];
 
         if (func_num_args()) {
             $args = func_get_args();
@@ -177,14 +177,14 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         }
     }
 
-    public function getPoints()
+    public function getPoints(): array
     {
         return $this->_points;
     }
 
     protected function recalcBoundings()
     {
-        $this->_boundingRect = array(null, null, null, null, null, null);
+        $this->_boundingRect = [null, null, null, null, null, null];
 
         foreach ($this->_points as $point) {
             if (!isset($this->_boundingRect[0]) || ($point->getX() < $this->_boundingRect[0])) {

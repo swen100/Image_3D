@@ -50,7 +50,7 @@ abstract class Driver
      *
      * Draws a flat shaded polygon. Methd uses the polygon color
      *
-     * @param Polygon $polygon Polygon
+     * @param Paintable\Polygon $polygon
      *
      * @return void
      */
@@ -62,7 +62,7 @@ abstract class Driver
      * Draws a gauroud shaded polygon. Methd uses the colors of the polygones
      * points and tries to create a gradient filling for the polygon.
      *
-     * @param Image_3D_Polygo $polygon Polygon
+     * @param Paintable\Polygon $polygon
      *
      * @return void
      */
@@ -84,8 +84,10 @@ abstract class Driver
      *
      * @return array Array with supported shading types
      */
-    public function getSupportedShading()
+    public function getSupportedShading(): array
     {
-        return array(Renderer::SHADE_NO);
+        return [
+            Renderer::SHADE_NO
+        ];
     }
 }

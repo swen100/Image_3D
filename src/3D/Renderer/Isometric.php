@@ -28,7 +28,7 @@ class Isometric extends \Image3D\Renderer
      *
      * @return  void
      */
-    protected function _calculateScreenCoordiantes(Point $point)
+    protected function calculateScreenCoordiantes(Point $point)
     {
         $point->setScreenCoordinates($point->getX() - ($point->getZ() * .35) + $this->_size[0], $point->getY() + ($point->getZ() * .35) + $this->_size[1]);
     }
@@ -40,7 +40,7 @@ class Isometric extends \Image3D\Renderer
      *
      * @return  void
      */
-    protected function _sortPolygones()
+    protected function sortPolygones()
     {
         $polygoneDepth = array();
 

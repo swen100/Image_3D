@@ -34,11 +34,21 @@ namespace Image3D;
 
 interface Interface_Paintable
 {
+    
     public function getPolygonCount();
 
+    /**
+     *
+     * @param \Image3D\Color $color
+     */
     public function setColor(Color $color);
 
     public function setOption($option, $value);
 
+    /**
+     *
+     * @param \Image3D\Matrix $matrix
+     * @param string $id
+     */
     public function transform(Matrix $matrix, $id = null);
 }

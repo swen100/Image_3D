@@ -1,7 +1,5 @@
 <?php
 
-define('IMAGE_3D_DRIVER_ASCII_GRAY', 0.01);
-
 /**
  * project-specific implementation.
  *

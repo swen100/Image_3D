@@ -22,21 +22,21 @@ class Color
      *
      * @var array
      */
-    protected $_rgbaValue;
+    protected $_rgbaValue = [];
 
     /**
      * Array with lights which influence this color
      *
      * @var array
      */
-    protected $_lights;
+    protected $_lights = [];
 
     /**
      * Resulting light for this color
      *
      * @var array
      */
-    protected $_light;
+    protected $_light = [0, 0, 0];
 
     /**
      * Optinal value for reflection
@@ -50,23 +50,24 @@ class Color
      *
      * All colors accept values in integer (0 - 255) or float (0 - 1)
      *
-     * @param mixed $red   red
-     * @param mixed $green green
-     * @param mixed $blue  blue
-     * @param mixed $alpha alpha
+     * @param number $red   red
+     * @param number $green green
+     * @param number $blue  blue
+     * @param number $alpha alpha
+     * @param float  $reflection
      *
-     * @return Color              Instance of Color
+     * @return Color Instance of Color
      */
     public function __construct($red = 0., $green = 0., $blue = 0., $alpha = 0., $reflection = null)
     {
-        $this->_rgbaValue = array();
-
-        $this->_lights = array();
-        $this->_light = array(0, 0, 0);
-
         $arglist = func_get_args();
         $argcount = func_num_args();
 
+        $this->_rgbaValue[0] = (float) min(1, max(0, (float) $red / (is_float($red) ? 1 : 255)));
+        $this->_rgbaValue[1] = (float) min(1, max(0, (float) $red / (is_float($green) ? 1 : 255)));
+        $this->_rgbaValue[2] = (float) min(1, max(0, (float) $red / (is_float($blue) ? 1 : 255)));
+        $this->_rgbaValue[3] = (float) min(1, max(0, (float) $red / (is_float($alpha) ? 1 : 255)));
+        
         for ($i = 0; $i < 4; $i++) {
             if ($i >= $argcount) {
                 $this->_rgbaValue[$i] = 0;
@@ -239,6 +240,12 @@ class Color
      */
     public function __toString()
     {
-        return sprintf("Color: r %.2f g %.2f b %.2f a %.2f\n", $this->_rgbaValue[0], $this->_rgbaValue[1], $this->_rgbaValue[2], $this->_rgbaValue[3]);
+        return sprintf(
+            "Color: r %.2f g %.2f b %.2f a %.2f\n",
+            $this->_rgbaValue[0],
+            $this->_rgbaValue[1],
+            $this->_rgbaValue[2],
+            $this->_rgbaValue[3]
+        );
     }
 }

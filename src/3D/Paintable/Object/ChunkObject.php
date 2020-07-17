@@ -2,20 +2,29 @@
 
 namespace Image3D\Paintable\Object;
 
-class /*Image_3D_*/ChunkObject extends /*\Image3D\Image_3D_*/ Chunk
+class ChunkObject extends Chunk
 {
 
-    protected $name;
+    /**
+     * @var string
+     */
+    protected $name = '';
 
+    /**
+     *
+     * @param number $type
+     * @param string $content
+     */
     public function __construct($type, $content)
     {
         parent::__construct($type, $content);
-        $this->getName();
+        $this->createName();
     }
 
-    protected function getName()
+    protected function createName()
     {
         $i = 0;
+        $this->name = '';
         while ((ord($this->content{$i}) !== 0) && ($i < $this->size)) {
             $this->name .= $this->content{$i++};
         }

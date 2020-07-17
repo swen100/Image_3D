@@ -55,8 +55,8 @@ class Torus extends \Image3D\Paintable\Base3DObject
             foreach ($ring as $j => $point) {
                 $j_next = ($j + 1) % count($ring);
 
-                $this->_addPolygon(new Polygon($rings[$i_next][$j], $rings[$i][$j], $rings[$i][$j_next]));
-                $this->_addPolygon(new Polygon($rings[$i_next][$j], $rings[$i][$j_next], $rings[$i_next][$j_next]));
+                $this->addPolygon(new Polygon($rings[$i_next][$j], $rings[$i][$j], $rings[$i][$j_next]));
+                $this->addPolygon(new Polygon($rings[$i_next][$j], $rings[$i][$j_next], $rings[$i_next][$j_next]));
             }
         }
     }

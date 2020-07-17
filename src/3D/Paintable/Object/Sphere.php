@@ -20,30 +20,42 @@ use Image3D\Paintable\Polygon;
 class /*Image_3D_Object_*/Sphere extends \Image3D\Paintable\/*Image_3D_*/ Base3DObject
 {
 
-    protected $_points;
-    protected $_virtualPolygon;
+    /**
+     * @var array
+     */
+    protected $_points = [];
+    
+    /**
+     * @var array
+     */
+    protected $_virtualPolygon = [];
+    
+    /**
+     * @var float
+     */
     protected $_radius;
 
+    /**
+     *
+     * @param array $options ['r' => .., 'detail' => ..]
+     */
     public function __construct($options)
     {
         parent::__construct();
 
-        $this->_lines = array();
-        $this->_points = array();
-        $this->_virtualPolygon = array();
         $this->_radius = (float) $options['r'];
         $detail = (int) $options['detail'];
 
-        $this->_createTetraeder();
+        $this->createTetraeder();
 
         for ($step = 0; $step < $detail; $step++) {
-            $this->_sierpinsky();
+            $this->sierpinsky();
         }
 
-        $this->_getRealPolygones();
+        $this->getRealPolygones();
     }
 
-    protected function _sierpinsky()
+    protected function sierpinsky()
     {
         $newPolygones = array();
         $proceededLines = array();
@@ -79,7 +91,7 @@ class /*Image_3D_Object_*/Sphere extends \Image3D\Paintable\/*Image_3D_*/ Base3D
         $this->_virtualPolygon = $newPolygones;
     }
 
-    protected function _createTetraeder()
+    protected function createTetraeder()
     {
         $laenge = $this->_radius / sqrt(3);
 
@@ -94,10 +106,10 @@ class /*Image_3D_Object_*/Sphere extends \Image3D\Paintable\/*Image_3D_*/ Base3D
         $this->_virtualPolygon[] = array(0, 3, 2);
     }
 
-    protected function _getRealPolygones()
+    protected function getRealPolygones()
     {
         foreach ($this->_virtualPolygon as $points) {
-            $this->_addPolygon(new Polygon($this->_points[$points[0]], $this->_points[$points[1]], $this->_points[$points[2]]));
+            $this->addPolygon(new Polygon($this->_points[$points[0]], $this->_points[$points[1]], $this->_points[$points[2]]));
         }
     }
 }

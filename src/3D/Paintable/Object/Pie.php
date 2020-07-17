@@ -20,20 +20,28 @@ use Image3D\Paintable\Polygon;
 class Pie extends \Image3D\Paintable\Base3DObject
 {
 
-    public function __construct($parameter)
+    /**
+     *
+     * @param array $parameter ['inside' => 0|1]
+     */
+    public function __construct(array $parameter)
     {
         $parameter['inside'] = isset($parameter['inside']) ? $parameter['inside'] : 0;
         
-        $parameter = $this->_checkParameter($parameter);
+        $parameter = $this->checkParameter($parameter);
         
         if ($parameter['inside'] == 0) {
-            $this->_createPie($parameter);
+            $this->createPie($parameter);
         } else {
-            $this->_createDonutPie($parameter);
+            $this->createDonutPie($parameter);
         }
     }
 
-    protected function _createPie($parameter)
+    /**
+     *
+     * @param array $parameter ['end' => .., 'start' => .., 'detail' => .., 'outside' => .., 'inside' => ..]
+     */
+    protected function createPie(array $parameter)
     {
         $step = ($parameter['end'] - $parameter['start']) / $parameter['detail'];
 
@@ -48,8 +56,8 @@ class Pie extends \Image3D\Paintable\Base3DObject
         $bottom = new Point($x, $y, -.5);
 
         // Polygones for the opening side
-        $this->_addPolygon(new Polygon($top, $centerTop, $centerBottom));
-        $this->_addPolygon(new Polygon($bottom, $top, $centerBottom));
+        $this->addPolygon(new Polygon($top, $centerTop, $centerBottom));
+        $this->addPolygon(new Polygon($bottom, $top, $centerBottom));
 
         for ($i = 1; $i <= $parameter['detail']; $i++) {
             $x = cos($parameter['start'] + $i * $step) * $parameter['outside'];
@@ -58,23 +66,28 @@ class Pie extends \Image3D\Paintable\Base3DObject
             $newTop = new Point($x, $y, .5);
             $newBottom = new Point($x, $y, -.5);
 
-            $this->_addPolygon(new Polygon($centerTop, $top, $newTop));
-            $this->_addPolygon(new Polygon($centerBottom, $bottom, $newBottom));
+            $this->addPolygon(new Polygon($centerTop, $top, $newTop));
+            $this->addPolygon(new Polygon($centerBottom, $bottom, $newBottom));
 
             // Rand
-            $this->_addPolygon(new Polygon($top, $newBottom, $newTop));
-            $this->_addPolygon(new Polygon($top, $bottom, $newBottom));
+            $this->addPolygon(new Polygon($top, $newBottom, $newTop));
+            $this->addPolygon(new Polygon($top, $bottom, $newBottom));
 
             $top = $newTop;
             $bottom = $newBottom;
         }
 
         // Polygones for the closing side
-        $this->_addPolygon(new Polygon($top, $centerTop, $centerBottom));
-        $this->_addPolygon(new Polygon($bottom, $top, $centerBottom));
+        $this->addPolygon(new Polygon($top, $centerTop, $centerBottom));
+        $this->addPolygon(new Polygon($bottom, $top, $centerBottom));
     }
 
-    protected function _checkParameter($array)
+    /**
+     *
+     * @param array $array
+     * @return array
+     */
+    protected function checkParameter(array $array): array
     {
         $array['detail'] = max(1, (int) $array['detail']);
         $array['outside'] = max(0, (int) $array['outside']);
@@ -82,6 +95,14 @@ class Pie extends \Image3D\Paintable\Base3DObject
         $array['start'] = max(0, deg2rad((float) $array['start']));
         $array['end'] = max(0, deg2rad((float) $array['end']));
 
-        return ($array);
+        return $array;
+    }
+
+    /**
+     *
+     * @param array $parameter ['end' => .., 'start' => .., 'detail' => .., 'outside' => .., 'inside' => ..]
+     */
+    public function createDonutPie($parameter)
+    {
     }
 }

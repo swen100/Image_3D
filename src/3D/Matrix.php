@@ -53,7 +53,7 @@ class Matrix
         $result = new Matrix();
         for ($i = 0; $i < 4; $i++) {
             for ($j = 0; $j < 4; $j++) {
-                $result->setValue($i, $j, $matrix->getValue($i, $j) - $this->_getValue($i, $j));
+                $result->setValue($i, $j, $matrix->getValue($i, $j) - $this->getValue($i, $j));
             }
         }
         return $result;

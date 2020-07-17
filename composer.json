@@ -63,9 +63,9 @@
             "@cs",
             "@stan"
         ],
-        "cs": "vendor/bin/phpcs --cache -n -p Image/",
-        "cs-warning": "vendor/bin/phpcs --cache -p Image/ || true",
-        "cs-fix": "vendor/bin/phpcbf --cache -n -p Image/",
-        "stan" : "vendor/bin/phpstan analyze --level 5 Image/"
+        "cs": "vendor/bin/phpcs --cache -n -p src/",
+        "cs-warning": "vendor/bin/phpcs --cache -p src/ || true",
+        "cs-fix": "vendor/bin/phpcbf --cache -n -p src/",
+        "stan" : "vendor/bin/phpstan analyze --level 5 src/"
     }
 }

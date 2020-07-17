@@ -122,7 +122,7 @@ class Image_3D
      * @param string $type      Objectname
      * @param array  $parameter Parameters
      *
-     * @return Image_3D_Object            Object instance
+     * @return Paintable\Base3DObject Object instance
      */
     public function createObject($type, $parameter = [])
     {
@@ -287,14 +287,14 @@ class Image_3D
      * @param integer $y    Height
      * @param string  $file Filename
      *
-     * @return boolean Success
+     * @return bool Success
      */
     public function render($x, $y, $file)
     {
         // Hack because stdout is not writeable
         if ((is_file($file) || !is_writeable(dirname($file))) &&
                 (!is_file($file) || !is_writeable($file)) && !preg_match('/^\s*php:\/\/(stdout|output)\s*$/i', $file)) {
-            throw new Exception('Cannot write outputfile.');
+            throw new \Exception('Cannot write outputfile.');
         }
 
         $x = min(1280, max(0, (int) $x));

@@ -23,6 +23,13 @@ class /*Image_3D_Light_*/Spotlight extends \Image3D\Paintable\Light
     protected $_angle;
     protected $_float;
 
+    /**
+     *
+     * @param number $x
+     * @param number $y
+     * @param number $z
+     * @param array $parameter
+     */
     public function __construct($x, $y, $z, $parameter)
     {
         parent::__construct($x, $y, $z);
@@ -37,6 +44,11 @@ class /*Image_3D_Light_*/Spotlight extends \Image3D\Paintable\Light
         $this->_float = (int) $parameter['float'];
     }
 
+    /**
+     *
+     * @param \Image3D\Interface_Enlightenable $polygon
+     * @return \Image3D\Color
+     */
     public function getColor(\Image3D\Interface_Enlightenable $polygon)
     {
         $color = clone ($polygon->getColor());
@@ -62,6 +74,7 @@ class /*Image_3D_Light_*/Spotlight extends \Image3D\Paintable\Light
         $angle = abs(1 - $normale->getAngle($light));
 
         $color->addLight($this->_color, $angle * $factor);
+        
         return $color;
     }
 }

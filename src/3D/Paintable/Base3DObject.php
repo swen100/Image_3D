@@ -21,11 +21,10 @@ use Image3D\Matrix;
 class Base3DObject implements \Image3D\Interface_Paintable
 {
     
-    protected $_polygones;
+    protected $_polygones = [];
     
     public function __construct()
     {
-        $this->_polygones = [];
     }
     
     public function getPolygonCount()
@@ -64,12 +63,12 @@ class Base3DObject implements \Image3D\Interface_Paintable
         return $this->_polygones;
     }
     
-    protected function _addPolygon(Polygon $polygon)
+    protected function addPolygon(Polygon $polygon)
     {
         $this->_polygones[] = $polygon;
     }
     
-    protected function _buildInzidenzGraph()
+    protected function buildInzidenzGraph()
     {
         $polygons = $this->getPolygones();
 
@@ -142,7 +141,7 @@ class Base3DObject implements \Image3D\Interface_Paintable
     public function subdivideSurfaces($factor = 1)
     {
         for ($i = 0; $i < $factor; ++$i) {
-            $data = $this->_buildInzidenzGraph();
+            $data = $this->buildInzidenzGraph();
 
             // Additional hash maps
             $edge_surfaces = [];
@@ -260,7 +259,7 @@ class Base3DObject implements \Image3D\Interface_Paintable
                 // Create new polygones
                 foreach ($points as $point) {
                     $edges = array_values(array_intersect($point_edges[$point], $data['surfaces'][$surface]));
-                    $this->_addPolygon(new Polygon(
+                    $this->addPolygon(new Polygon(
                         $old_points[$point],
                         $edge_points[$edges[0]],
                         $face_point,

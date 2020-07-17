@@ -8,13 +8,32 @@ use Image3D\Paintable\Polygon;
 class DsObject extends \Image3D\Paintable\Base3DObject
 {
 
-    protected $_points;
+    /**
+     * @var array
+     */
+    protected $_points = [];
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->_points = array();
+    }
+    
+    /**
+     *
+     * @return array
+     */
+    public function getPoints(): array
+    {
+        return $this->_points;
+    }
+    
+    /**
+     *
+     * @return int
+     */
+    public function getNumPoints(): int
+    {
+        return count($this->_points);
     }
 
     public function newPoint($x, $y, $z)
@@ -29,12 +48,12 @@ class DsObject extends \Image3D\Paintable\Base3DObject
 //            printf("ERROR: Unknown point (%d, %d, %d of %d)\n", $p1, $p2, $p3, count($this->_points) - 1);
             return false;
         }
-        $this->_addPolygon(new Polygon($this->_points[$p1], $this->_points[$p2], $this->_points[$p3]));
+        $this->addPolygon(new Polygon($this->_points[$p1], $this->_points[$p2], $this->_points[$p3]));
 //        echo "New Polygon: $p1, $p2, $p3 -> ", count($this->_polygones), "\n";
     }
 
     public function debug()
     {
-        printf("Points: %d | Polygones: %d (%d)\n", count($this->_points), count($this->_polygones), $this->_polygonCount);
+        printf("Points: %d | Polygones: %d (%d)\n", count($this->_points), count($this->_polygones), $this->getPolygonCount());
     }
 }

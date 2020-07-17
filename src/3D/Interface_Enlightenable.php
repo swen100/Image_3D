@@ -21,7 +21,7 @@ interface Interface_Enlightenable
      *
      * Return the color for the object
      *
-     * @return  Color      Color of object
+     * @return Color Color of object
      */
     public function getColor();
     
@@ -30,7 +30,7 @@ interface Interface_Enlightenable
      *
      * Return normale vector for the object
      *
-     * @return  Vector     Normale vector
+     * @return Vector Normale vector
      */
     public function getNormale();
     
@@ -39,7 +39,7 @@ interface Interface_Enlightenable
      *
      * Return position for the object
      *
-     * @return  Coordinate Coordinate
+     * @return Coordinate Coordinate
      */
     public function getPosition();
 }

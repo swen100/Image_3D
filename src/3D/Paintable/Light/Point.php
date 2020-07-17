@@ -25,10 +25,10 @@ class Point extends \Image3D\Paintable\Light
 
     /**
      *
-     * @param type $x
-     * @param type $y
-     * @param type $z
-     * @param type $parameter
+     * @param number $x
+     * @param number $y
+     * @param number $z
+     * @param array $parameter
      */
     public function __construct($x, $y, $z, $parameter)
     {

@@ -20,6 +20,8 @@ use Image3D\Renderer;
 class ASCII extends \Image3D\Driver
 {
 
+    public static $IMAGE_3D_DRIVER_ASCII_GRAY = 0.01;
+
     protected $_size;
     protected $_filetype;
     protected $_points;
@@ -101,10 +103,10 @@ class ASCII extends \Image3D\Driver
 
     public function reset()
     {
-        $this->_points = array();
-        $this->_heigth = array();
+        $this->_points = [];
+        $this->_heigth = [];
 
-        $this->_image = array();
+        $this->_image = [];
     }
 
     /**
@@ -117,7 +119,7 @@ class ASCII extends \Image3D\Driver
      */
     public function createImage($x, $y)
     {
-        $this->_size = array($x, $y);
+        $this->_size = [$x, $y];
     }
 
     protected function _getColor(Color $color, $alpha = 1.)
@@ -158,16 +160,16 @@ class ASCII extends \Image3D\Driver
         $xdiff = ($x2 - $x1) / $steps;
         $ydiff = ($y2 - $y1) / $steps;
 
-        $points = array();
+        $points = [];
         for ($i = 0; $i < $steps; ++$i) {
             $points[(int) round($x1 + $i * $xdiff)][(int) round($y1 + $i * $ydiff)] = true;
         }
         return $points;
     }
 
-    protected function _getPolygonOutlines($pointArray)
+    protected function getPolygonOutlines($pointArray)
     {
-        $map = array();
+        $map = [];
 
         $last = end($pointArray);
         foreach ($pointArray as $point) {
@@ -186,7 +188,7 @@ class ASCII extends \Image3D\Driver
 
     public function drawPolygon(Polygon $polygon)
     {
-        $points = $this->_getPolygonOutlines($polygon->getPoints());
+        $points = $this->getPolygonOutlines($polygon->getPoints());
 
         foreach ($points as $x => $row) {
             if (count($row) < 2) {
@@ -225,7 +227,7 @@ class ASCII extends \Image3D\Driver
         }
     }
 
-    public function _getAnsiColorCode($color, $last = '')
+    public function getAnsiColorCode($color, $last = '')
     {
         $code = "\033[0;" . (30 + bindec((int) round($color[2]) . (int) round($color[1]) . (int) round($color[0]))) . 'm';
         if ($last !== $code) {
@@ -255,7 +257,7 @@ class ASCII extends \Image3D\Driver
 
                         if (isset($this->_heigth[$xPos][$yPos])) {
                             $color = $this->mixColor($this->_image[$xPos][$yPos], $this->_heigth[$xPos][$yPos]);
-                            if ((($color[0] + $color[1] + $color[2]) / 3) > IMAGE_3D_DRIVER_ASCII_GRAY) {
+                            if ((($color[0] + $color[1] + $color[2]) / 3) > self::$IMAGE_3D_DRIVER_ASCII_GRAY) {
                                 $char |= pow(2, $yi + ($xi * 3));
                             }
                             $charColor[0] += $color[0];
@@ -264,7 +266,7 @@ class ASCII extends \Image3D\Driver
                         }
                     }
                 }
-                $lastColor = $this->_getAnsiColorCode(array($charColor[0] / 6, $charColor[1] / 6, $charColor[2] / 6), $lastColor);
+                $lastColor = $this->getAnsiColorCode([$charColor[0] / 6, $charColor[1] / 6, $charColor[2] / 6], $lastColor);
                 $output .= $lastColor . $this->_charArray[$char];
             }
             $lastColor = '';
@@ -275,9 +277,11 @@ class ASCII extends \Image3D\Driver
         fclose($fp);
     }
 
-    public function getSupportedShading()
+    public function getSupportedShading(): array
     {
-        return array(Renderer::SHADE_NO,
-            Renderer::SHADE_FLAT);
+        return [
+            Renderer::SHADE_NO,
+            Renderer::SHADE_FLAT
+        ];
     }
 }

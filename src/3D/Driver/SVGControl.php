@@ -424,9 +424,7 @@ EOF;
      */
     protected function _getControls()
     {
-
-        function drawArrow($x, $y, $id, $rot, $funct)
-        {
+        $drawArrow = function ($x, $y, $id, $rot, $funct) {
             $arrow_points = ($x + 12) . ',' . ($y + 3) . ' ' . ($x + 3) . ',' . ($y + 8) . ' ' . ($x + 12) . ',' . ($y + 13);
 
             $arrow = "\t<g id=\"" . $id . '" transform="rotate(' . $rot . ', ' . ($x + 8) . ', ' . ($y + 8)
@@ -440,7 +438,7 @@ EOF;
             $arrow .= "\t</g>\n";
 
             return $arrow;
-        }
+        };
 
         $x = $this->_x * 0.05;
         $y = $this->_y * 0.05;
@@ -507,25 +505,25 @@ EOF;
         $x = 0;
         $y = $this->_y / 2 - 8;
 
-        $controls .= drawArrow($x, $y, 'move_left', 0, 'move_left(15)');
+        $controls .= $drawArrow($x, $y, 'move_left', 0, 'move_left(15)');
 
         // Move up
         $x = $this->_x / 2 - 8;
         $y = 20;
 
-        $controls .= drawArrow($x, $y, 'move_up', 90, 'move_up(15)');
+        $controls .= $drawArrow($x, $y, 'move_up', 90, 'move_up(15)');
 
         // Move right
         $x = $this->_x - 16;
         $y = $this->_y / 2 - 8;
 
-        $controls .= drawArrow($x, $y, 'move_right', 180, 'move_right(15)');
+        $controls .= $drawArrow($x, $y, 'move_right', 180, 'move_right(15)');
 
         // Move down
         $x = $this->_x / 2 - 8;
         $y = $this->_y - 16;
 
-        $controls .= drawArrow($x, $y, 'move_down', -90, 'move_down(15)');
+        $controls .= $drawArrow($x, $y, 'move_down', -90, 'move_down(15)');
 
         return $controls;
     }
@@ -579,8 +577,11 @@ EOF;
         file_put_contents($file, $this->_image);
     }
 
-    public function getSupportedShading()
+    public function getSupportedShading(): array
     {
-        return array(Renderer::SHADE_NO, Renderer::SHADE_FLAT);
+        return [
+            Renderer::SHADE_NO,
+            Renderer::SHADE_FLAT
+        ];
     }
 }

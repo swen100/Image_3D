@@ -25,7 +25,7 @@ class Polygon extends \Image3D\Paintable\Base3DObject
         foreach ($points as $point) {
             $polygon->addPoint($point);
         }
-        $this->_addPolygon($polygon);
+        $this->addPolygon($polygon);
     }
 
     public function getPolygon()

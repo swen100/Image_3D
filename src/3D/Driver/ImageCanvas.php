@@ -14,7 +14,6 @@ class ImageCanvas extends \Image3D\Driver
 
     public function __construct()
     {
-        parent::__construct();
     }
 
     public function setImageType($type)
@@ -24,7 +23,9 @@ class ImageCanvas extends \Image3D\Driver
 
     public function createImage($x, $y)
     {
-        $this->_image = Image_Canvas::factory($this->_type, array('width' => $x, 'height' => $y, 'antialias' => 'driver'));
+        // needs https://github.com/csatf/Image_Canvas
+        /* @phpstan-ignore-next-line */
+        $this->_image = Image_Canvas::factory($this->_type, ['width' => $x, 'height' => $y, 'antialias' => 'driver']);
     }
 
     protected function _getColor(Color $color)
@@ -63,8 +64,11 @@ class ImageCanvas extends \Image3D\Driver
         $this->_image->save(array('filename' => $file));
     }
 
-    public function getSupportedShading()
+    public function getSupportedShading(): array
     {
-        return array(Renderer::SHADE_NO, Renderer::SHADE_FLAT);
+        return [
+            Renderer::SHADE_NO,
+            Renderer::SHADE_FLAT
+        ];
     }
 }

@@ -20,14 +20,17 @@ use Image3D\Vector;
 class Light extends \Image3D\Coordinate implements \Image3D\Interface_Paintable
 {
     
+    /**
+     * @var \Image3D\Color
+     */
     protected $_color;
     
+    protected $options = [];
+
     public function __construct($x, $y, $z)
     {
         parent::__construct($x, $y, $z);
-        
-        $this->_color = null;
-        $this->_position = null;
+        #$this->_position = null;
     }
     
     public function getPolygonCount()
@@ -40,6 +43,9 @@ class Light extends \Image3D\Coordinate implements \Image3D\Interface_Paintable
         $this->_color = $color;
     }
 
+    /**
+     * @return \Image3D\Color
+     */
     public function getRawColor()
     {
         return $this->_color;
@@ -47,7 +53,7 @@ class Light extends \Image3D\Coordinate implements \Image3D\Interface_Paintable
     
     public function setOption($option, $value)
     {
-        $this->_option[$option] = $value;
+        $this->options[$option] = $value;
     }
     
     public function getColor(\Image3D\Interface_Enlightenable $polygon)
@@ -64,6 +70,7 @@ class Light extends \Image3D\Coordinate implements \Image3D\Interface_Paintable
         
         // Use angle as light intensity
         $color->addLight($this->_color, $angle);
+        
         return $color;
     }
 }

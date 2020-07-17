@@ -28,7 +28,7 @@ class Perspectively extends \Image3D\Renderer
      *
      * @return  void
      */
-    protected function _calculateScreenCoordiantes(Point $point)
+    protected function calculateScreenCoordiantes(Point $point)
     {
         $viewpoint = 500.;
         $distance = 500.;
@@ -43,7 +43,7 @@ class Perspectively extends \Image3D\Renderer
      *
      * @return  void
      */
-    protected function _sortPolygones()
+    protected function sortPolygones()
     {
         $polygoneDepth = array();
         foreach ($this->_polygones as $polygon) {

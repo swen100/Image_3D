@@ -47,7 +47,7 @@ class Raytrace extends \Image3D\Renderer
      * @param Point $point Point to process
      * @return  void
      */
-    protected function _calculateScreenCoordiantes(Point $point)
+    protected function calculateScreenCoordiantes(Point $point)
     {
     }
 
@@ -58,7 +58,7 @@ class Raytrace extends \Image3D\Renderer
      *
      * @return  void
      */
-    protected function _sortPolygones()
+    protected function sortPolygones()
     {
     }
 
@@ -313,9 +313,9 @@ class Raytrace extends \Image3D\Renderer
      *
      * @param string $file Filename
      *
-     * @return  void
+     * @return bool
      */
-    public function render($file)
+    public function render($file): bool
     {
         // Render image...
         $canvas = $this->_raytrace();
@@ -333,7 +333,6 @@ class Raytrace extends \Image3D\Renderer
                 if (count($pixel)) {
                     $color = new Color();
                     $color->merge($pixel);
-
                     imagesetpixel($this->_image, $x, $y, $this->_getColor($color));
                 }
                 ++$y;
@@ -341,6 +340,6 @@ class Raytrace extends \Image3D\Renderer
             ++$x;
         }
 
-        imagepng($this->_image, $file);
+        return imagepng($this->_image, $file);
     }
 }
