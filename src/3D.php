@@ -90,7 +90,7 @@ class Image_3D
      *
      * Initialises the environment
      *
-     * @return Image_3D                World instance
+     * @return void
      */
     public function __construct()
     {
@@ -131,11 +131,11 @@ class Image_3D
      * parameter.
      *
      * @param string $type      Class
-     * @param mixed  $parameter Parameters
+     * @param array  $parameter Parameters
      *
-     * @return Light          Object instance
+     * @return Light Object instance
      */
-    public function createLight($type, $parameter = [])
+    public function createLight(string $type, array $parameter = [])
     {
         $name = ucfirst($type);
         if ($name != 'Light') {
@@ -160,7 +160,7 @@ class Image_3D
      *
      * @return Matrix         Object instance
      */
-    public function createMatrix($type, $parameter = [])
+    public function createMatrix(string $type, array $parameter = [])
     {
         $name = ucfirst($type);
         $class = '\\Image3D\\Matrix\\' . $name;
@@ -174,13 +174,13 @@ class Image_3D
      * Sets the backgroundcolor for final image. Transparancy is not supported
      * by all drivers
      *
-     * @param Color $color Backgroundcolor
+     * @param Color $colorObj Backgroundcolor
      *
      * @return void
      */
-    public function setColor(Color $color)
+    public function setColor(Color $colorObj)
     {
-        $this->_color = $color;
+        $this->_color = $colorObj;
     }
 
     /**
@@ -193,9 +193,9 @@ class Image_3D
      *
      * @param string $type Renderer type
      *
-     * @return Renderer       Object instance
+     * @return Renderer Object instance
      */
-    public function createRenderer($type)
+    public function createRenderer(string $type)
     {
         $name = ucfirst($type);
         $class = '\\Image3D\\Renderer\\' . $name;
@@ -213,9 +213,9 @@ class Image_3D
      *
      * @param string $type Driver type
      *
-     * @return Driver         Object instance
+     * @return Driver Object instance
      */
-    public function createDriver($type)
+    public function createDriver(string $type)
     {
         $name = ucfirst($type);
         $class = '\\Image3D\\Driver\\' . $name;
@@ -253,14 +253,13 @@ class Image_3D
      * avoid double calculations, if a point is related to more than one
      * object.
      *
-     * @param Matrix $matrix Transformation matrix
-     * @param mixed           $id     Transformation ID
+     * @param Matrix $matrix  Transformation matrix
+     * @param string|null $id Transformation ID
      *
      * @return void
      */
     public function transform(Matrix $matrix, $id = null)
     {
-
         if ($id === null) {
             $id = substr(md5(microtime()), 0, 8);
         }

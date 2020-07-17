@@ -23,7 +23,7 @@ class Image_3D_Color_Metal extends \Image3D\Color
     protected $_metal;
 
     /**
-     * 
+     *
      * @param number $metal
      */
     public function setMetal($metal)

@@ -33,9 +33,9 @@ class ImageCanvas extends \Image3D\Driver
         // needs https://github.com/csatf/Image_Canvas
         /* @phpstan-ignore-next-line */
         $this->_image = Image_Canvas::factory(
-                $this->_type,
-                ['width' => (int) $x, 'height' => (int) $y, 'antialias' => 'driver']
-            );
+            $this->_type,
+            ['width' => (int) $x, 'height' => (int) $y, 'antialias' => 'driver']
+        );
     }
 
     /**

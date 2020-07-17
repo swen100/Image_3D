@@ -263,7 +263,7 @@ class ASCII extends \Image3D\Driver
     }
 
     /**
-     * 
+     *
      * @param array $color
      * @param string $last
      * @return string
@@ -278,7 +278,7 @@ class ASCII extends \Image3D\Driver
     }
 
     /**
-     * 
+     *
      * @param string $file
      * @return bool
      */
@@ -326,7 +326,7 @@ class ASCII extends \Image3D\Driver
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getSupportedShading(): array

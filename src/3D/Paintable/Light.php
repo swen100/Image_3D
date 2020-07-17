@@ -31,7 +31,7 @@ class Light extends \Image3D\Coordinate implements \Image3D\Interface_Paintable
     protected $options = [];
 
     /**
-     * 
+     *
      * @param number $x
      * @param number $y
      * @param number $z
@@ -47,7 +47,7 @@ class Light extends \Image3D\Coordinate implements \Image3D\Interface_Paintable
     }
     
     /**
-     * 
+     *
      * @param \Image3D\Color $color
      */
     public function setColor(\Image3D\Color $color)

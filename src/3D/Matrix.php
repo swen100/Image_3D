@@ -17,13 +17,12 @@ namespace Image3D;
 class Matrix
 {
     /**
-     *
      * @var array
      */
     protected $_matrix = [];
 
     /**
-     *
+     * @return void
      */
     public function __construct()
     {
@@ -35,7 +34,7 @@ class Matrix
      * @param int $x
      * @param int $y
      * @param number $value
-     * @return boolean
+     * @return bool
      */
     public function setValue($x, $y, $value)
     {
@@ -52,7 +51,7 @@ class Matrix
      *
      * @param int $x
      * @param int $y
-     * @return boolean|float
+     * @return false|float
      */
     public function getValue($x, $y)
     {
@@ -77,11 +76,10 @@ class Matrix
     }
 
     /**
-     *
      * @param \Image3D\Matrix $matrix
      * @return \Image3D\Matrix
      */
-    public function diff(Matrix $matrix)
+    public function diff(Matrix $matrix): Matrix
     {
         $result = new Matrix();
         for ($i = 0; $i < 4; $i++) {
@@ -93,8 +91,8 @@ class Matrix
     }
 
     /**
-     *
      * @param number $skalar
+     * @return void
      */
     public function multiplySkalar($skalar)
     {
@@ -116,10 +114,10 @@ class Matrix
     }
 
     /**
-     *
      * @param number $rotationX
      * @param number $rotationY
      * @param number $rotationZ
+     * @return void
      */
     public function setRotationMatrix($rotationX, $rotationY, $rotationZ)
     {
@@ -176,10 +174,10 @@ class Matrix
     }
 
     /**
-     *
      * @param number $moveX
      * @param number $moveY
      * @param number $moveZ
+     * @return void
      */
     public function setMoveMatrix($moveX, $moveY, $moveZ)
     {
@@ -192,10 +190,10 @@ class Matrix
     }
 
     /**
-     *
      * @param number $scaleX
      * @param number $scaleY
      * @param number $scaleZ
+     * @return void
      */
     public function setScaleMatrix($scaleX, $scaleY, $scaleZ)
     {
@@ -208,7 +206,6 @@ class Matrix
     }
 
     /**
-     *
      * @param \Image3D\Matrix $matrix
      * @return $this
      */
