@@ -15,7 +15,6 @@ class DsObject extends \Image3D\Paintable\Base3DObject
 
     public function __construct()
     {
-        parent::__construct();
     }
     
     /**

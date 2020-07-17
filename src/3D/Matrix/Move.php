@@ -1,7 +1,5 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
 namespace Image3D\Matrix;
 
 /**
@@ -16,10 +14,13 @@ namespace Image3D\Matrix;
  * @link      http://pear.php.net/package/Image_3D
  * @since     Class available since Release 0.1.0
  */
-class /*Image_3D_Matrix_*/Move extends \Image3D\Matrix
+class Move extends \Image3D\Matrix
 {
 
-    public function __construct($parameter)
+    /**
+     * @param array $parameter
+     */
+    public function __construct(array $parameter)
     {
         $this->setUnitMatrix();
         $this->setMoveMatrix((float) $parameter[0], (float) $parameter[1], (float) $parameter[2]);

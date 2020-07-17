@@ -1,6 +1,5 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 namespace Image3D\Paintable;
 
 use Image3D\Color;
@@ -21,13 +20,20 @@ use Image3D\Matrix;
 class Base3DObject implements \Image3D\Interface_Paintable
 {
     
+    /**
+     * @var array
+     */
     protected $_polygones = [];
     
     public function __construct()
     {
     }
     
-    public function getPolygonCount()
+    /**
+     *
+     * @return int
+     */
+    public function getPolygonCount(): int
     {
         return count($this->_polygones);
     }
@@ -39,6 +45,11 @@ class Base3DObject implements \Image3D\Interface_Paintable
         }
     }
     
+    /**
+     *
+     * @param string $option
+     * @param mixed $value
+     */
     public function setOption($option, $value)
     {
         foreach ($this->_polygones as $polygon) {
@@ -119,7 +130,7 @@ class Base3DObject implements \Image3D\Interface_Paintable
             }
 
             // Close surface
-            $e_points = array($first_index, $last_index);
+            $e_points = [$first_index, $last_index];
             sort($e_points);
             $p_e_hash = implode(' -> ', $e_points);
             if (isset($edge_hash[$p_e_hash])) {
@@ -131,11 +142,11 @@ class Base3DObject implements \Image3D\Interface_Paintable
             }
         }
 
-        return array(
+        return [
             'surfaces' => $surfaces,
             'edges' => $edges,
             'points' => $points,
-        );
+        ];
     }
 
     public function subdivideSurfaces($factor = 1)

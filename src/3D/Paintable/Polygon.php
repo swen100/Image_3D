@@ -119,7 +119,7 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         return $this->_position;
     }
 
-    public function getPolygonCount()
+    public function getPolygonCount(): int
     {
         return 1;
     }

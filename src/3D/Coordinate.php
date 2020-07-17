@@ -56,7 +56,7 @@ class Coordinate
      *
      * @var array
      */
-    protected $_screenCoordinates = [];
+    protected $screenCoordinates = [];
 
     /**
      * Constructor for Image_3D_Coordinate
@@ -67,7 +67,7 @@ class Coordinate
      * @param number $y Y Coordinate
      * @param number $z Z Coordinate
      *
-     * @return  Coordinate         Instance of Coordinate
+     * @return Coordinate         Instance of Coordinate
      */
     public function __construct($x, $y, $z)
     {
@@ -84,7 +84,7 @@ class Coordinate
      * @param Matrix $matrix Transformationmatrix
      * @param string          $id     Transformationid
      *
-     * @return  void
+     * @return void
      */
     public function transform(Matrix $matrix, $id = null)
     {
@@ -110,7 +110,7 @@ class Coordinate
                 $point->getZ() * $matrix->getValue(2, 2) +
                 $matrix->getValue(3, 2);
 
-        $this->_screenCoordinates = [];
+        $this->screenCoordinates = [];
     }
 
     /**
@@ -118,7 +118,7 @@ class Coordinate
      *
      * Store the coordinate as processed
      *
-     * @return  void
+     * @return void
      */
     public function processed()
     {
@@ -130,7 +130,7 @@ class Coordinate
      *
      * Return if coordinate already was processsed
      *
-     * @return  bool    processed
+     * @return bool    processed
      */
     public function isProcessed()
     {
@@ -142,7 +142,7 @@ class Coordinate
      *
      * Returns the X coordinate of the coordinate
      *
-     * @return  float    X coordinate
+     * @return float    X coordinate
      */
     public function getX()
     {
@@ -154,7 +154,7 @@ class Coordinate
      *
      * Returns the Y coordinate of the coordinate
      *
-     * @return  float    Y coordinate
+     * @return float    Y coordinate
      */
     public function getY()
     {
@@ -166,7 +166,7 @@ class Coordinate
      *
      * Returns the Z coordinate of the coordinate
      *
-     * @return  float    Z coordinate
+     * @return float    Z coordinate
      */
     public function getZ()
     {
@@ -181,11 +181,11 @@ class Coordinate
      * @param float $x X coordinate
      * @param float $y Y coordinate
      *
-     * @return  void
+     * @return void
      */
     public function setScreenCoordinates($x, $y)
     {
-        $this->_screenCoordinates = [(float) $x, (float) $y];
+        $this->screenCoordinates = [(float) $x, (float) $y];
     }
 
     /**
@@ -195,17 +195,17 @@ class Coordinate
      * array (     0 =>    (float) $x,
       1 =>    (float) $y )
      *
-     * @return  array    Screen coordinates
+     * @return array    Screen coordinates
      */
     public function getScreenCoordinates(): array
     {
-        return $this->_screenCoordinates;
+        return $this->screenCoordinates;
     }
 
     /**
      * Returns coordinate as string
      *
-     * @return  string    Coordinate
+     * @return string    Coordinate
      */
     public function __toString()
     {

@@ -17,18 +17,31 @@ namespace Image3D;
 class Vector extends Coordinate
 {
 
+    /**
+     * @var float
+     */
     protected $_length;
 
+    /**
+     *
+     * @param \Image3D\Vector $vector
+     * @return float
+     */
     public function getAngle(Vector $vector)
     {
         $length = $vector->length() * $this->length();
         if ($length < 0.0001) {
-            return 1;
+            return 1.0;
         }
 
-        return abs(acos($this->scalar($vector) / $length) / M_PI - .5) * 2;
+        return (float) abs(acos($this->scalar($vector) / $length) / M_PI - .5) * 2;
     }
 
+    /**
+     *
+     * @param \Image3D\Vector $vector
+     * @return float
+     */
     public function getSide(Vector $vector)
     {
 //        $vector->unify();
@@ -36,23 +49,31 @@ class Vector extends Coordinate
         return $this->scalar($vector);
     }
 
+    /**
+     *
+     * @return boolean|$this
+     */
     public function unify()
     {
-        if ($this->length() == 0) {
+        if ($this->length() == 0.0) {
             return false;
         }
-        if ($this->_length == 1) {
+        if ($this->_length == 1.0) {
             return $this;
         }
 
         $this->_x /= $this->_length;
         $this->_y /= $this->_length;
         $this->_z /= $this->_length;
-        $this->_length = 1;
+        $this->_length = 1.0;
         return $this;
     }
 
-    public function length()
+    /**
+     *
+     * @return float
+     */
+    public function length(): float
     {
         if (empty($this->_length)) {
             $this->_length = sqrt(pow($this->_x, 2) + pow($this->_y, 2) + pow($this->_z, 2));
@@ -60,24 +81,39 @@ class Vector extends Coordinate
         return $this->_length;
     }
 
+    /**
+     *
+     * @param \Image3D\Coordinate $vector
+     * @return $this
+     */
     public function add(Coordinate $vector)
     {
         $this->_x += $vector->getX();
         $this->_y += $vector->getY();
         $this->_z += $vector->getZ();
-        $this->_length = null;
+        $this->_length = 0.0;
         return $this;
     }
 
+    /**
+     *
+     * @param \Image3D\Coordinate $vector
+     * @return $this
+     */
     public function sub(Coordinate $vector)
     {
         $this->_x -= $vector->getX();
         $this->_y -= $vector->getY();
         $this->_z -= $vector->getZ();
-        $this->_length = null;
+        $this->_length = 0.0;
         return $this;
     }
 
+    /**
+     *
+     * @param \Image3D\Vector|number $scalar
+     * @return $this|float
+     */
     public function multiply($scalar)
     {
         if ($scalar instanceof Vector) {
@@ -87,18 +123,29 @@ class Vector extends Coordinate
         $this->_x *= $scalar;
         $this->_y *= $scalar;
         $this->_z *= $scalar;
-        $this->_length = null;
+        $this->_length = 0.0;
+        
         return $this;
     }
 
-    public function scalar(Coordinate $vector)
+    /**
+     *
+     * @param \Image3D\Coordinate $vector
+     * @return float
+     */
+    public function scalar(Coordinate $vector): float
     {
-        return (($this->_x * $vector->getX()) +
-                ($this->_y * $vector->getY()) +
-                ($this->_z * $vector->getZ()));
+        return (float) (($this->_x * $vector->getX()) +
+               ($this->_y * $vector->getY()) +
+               ($this->_z * $vector->getZ()));
     }
 
-    public function crossProduct(Coordinate $vector)
+    /**
+     *
+     * @param \Image3D\Coordinate $vector
+     * @return \Image3D\Vector
+     */
+    public function crossProduct(Coordinate $vector): Vector
     {
         return new Vector(
             $this->getY() * $vector->getZ() - $this->getZ() * $vector->getY(),

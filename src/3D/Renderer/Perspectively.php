@@ -26,7 +26,7 @@ class Perspectively extends \Image3D\Renderer
      *
      * @param Point $point Point to process
      *
-     * @return  void
+     * @return void
      */
     protected function calculateScreenCoordiantes(Point $point)
     {
@@ -41,7 +41,7 @@ class Perspectively extends \Image3D\Renderer
      *
      * Sort the polygones depending on their medium depth
      *
-     * @return  void
+     * @return void
      */
     protected function sortPolygones()
     {

@@ -35,7 +35,11 @@ namespace Image3D;
 interface Interface_Paintable
 {
     
-    public function getPolygonCount();
+    /**
+     *
+     * @return int
+     */
+    public function getPolygonCount(): int;
 
     /**
      *
@@ -43,6 +47,11 @@ interface Interface_Paintable
      */
     public function setColor(Color $color);
 
+    /**
+     *
+     * @param string $option
+     * @param mixed $value
+     */
     public function setOption($option, $value);
 
     /**

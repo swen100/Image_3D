@@ -17,20 +17,51 @@ namespace Image3D;
 class Point extends Coordinate implements Interface_Enlightenable
 {
 
+    /**
+     * @var array
+     */
     protected $_option = [];
-    protected $_lastTransformation;
-    protected $_screenCoordinates;
+    
+    /**
+     * @var bool
+     */
     protected $_processed = false;
+    
+    /**
+     * @var Vector
+     */
     protected $_normale;
-    protected $_vectors;
+    
+    /**
+     * @var array
+     */
+    protected $_vectors = [];
+    
+    /**
+     * @var array
+     */
     protected $_colors = [];
+    
+    /**
+     * @var Color
+     */
     protected $_color;
 
+    /**
+     *
+     * @param string $option
+     * @param mixed $value
+     */
     public function setOption($option, $value)
     {
         $this->_option[$option] = $value;
     }
 
+    /**
+     *
+     * @param array $lights
+     * @return boolean
+     */
     public function calculateColor($lights)
     {
         if (!count($lights)) {
@@ -45,6 +76,8 @@ class Point extends Coordinate implements Interface_Enlightenable
         if (is_object($this->_color)) {
             $this->_color->calculateColor();
         }
+        
+        return true;
     }
 
     public function addVector(Vector $vector)
@@ -79,10 +112,14 @@ class Point extends Coordinate implements Interface_Enlightenable
         $this->_colors[] = $color;
     }
 
+    /**
+     *
+     * @return void
+     */
     protected function mixColors()
     {
         $i = 0;
-        $color = array(0, 0, 0, 0);
+        $color = [0, 0, 0, 0];
         foreach ($this->_colors as $c) {
             $values = $c->getValues();
             $color[0] += $values[0];
@@ -94,7 +131,11 @@ class Point extends Coordinate implements Interface_Enlightenable
         $this->_color = new Color($color[0] / $i, $color[1] / $i, $color[2] / $i, $color[3] / $i);
     }
 
-    public function getColor()
+    /**
+     *
+     * @return Color
+     */
+    public function getColor(): Color
     {
         if ($this->_color === null) {
             $this->mixColors();

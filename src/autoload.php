@@ -6,7 +6,8 @@
  * @param string $class The fully-qualified class name.
  * @return void
  */
-function myAutoloader($class) {
+function myAutoloader($class)
+{
     #echo @get_called_class() . " called: " . "<br>";
     #echo "<b>$class</b><br>\n";
     

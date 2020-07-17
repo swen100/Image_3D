@@ -23,20 +23,36 @@ use Image3D\Coordinate;
 class Raytrace extends \Image3D\Renderer
 {
 
+    /**
+     * @var resource
+     */
     protected $_image;
+    
+    /**
+     * @var Coordinate
+     */
     protected $_camera;
-    protected $_shadows;
-    protected $_rays;
-    protected $_depth;
+    
+    /**
+     * @var bool
+     */
+    protected $_shadows = true;
+    
+    /**
+     * @var int
+     */
+    protected $_rays = 1;
+    
+    /**
+     * @var int
+     */
+    protected $_depth = 5;
 
     public function __construct()
     {
         parent::__construct();
 
         $this->_camera = new Coordinate(0, 0, -100);
-        $this->_shadows = true;
-        $this->_rays = 1;
-        $this->_depth = 5;
     }
 
     /**
@@ -45,7 +61,7 @@ class Raytrace extends \Image3D\Renderer
      * Does nothing.
      *
      * @param Point $point Point to process
-     * @return  void
+     * @return void
      */
     protected function calculateScreenCoordiantes(Point $point)
     {
@@ -56,7 +72,7 @@ class Raytrace extends \Image3D\Renderer
      *
      * Does nothing.
      *
-     * @return  void
+     * @return void
      */
     protected function sortPolygones()
     {
@@ -67,7 +83,7 @@ class Raytrace extends \Image3D\Renderer
      *
      * Does nothing.
      *
-     * @return  void
+     * @return void
      */
     public function setShading($shading)
     {
@@ -78,7 +94,7 @@ class Raytrace extends \Image3D\Renderer
      *
      * Does nothing.
      *
-     * @return  void
+     * @return void
      */
     public function setDriver(\Image3D\Driver $driver)
     {
@@ -89,11 +105,19 @@ class Raytrace extends \Image3D\Renderer
         $this->_camera = $position;
     }
 
+    /**
+     *
+     * @param number $rays
+     */
     public function setRaysPerPixel($rays)
     {
         $this->_rays = max(1, (int) $rays);
     }
 
+    /**
+     *
+     * @param number $depth
+     */
     public function scanDepth($depth)
     {
         $this->_depth = max(1, (int) $depth);
@@ -104,6 +128,12 @@ class Raytrace extends \Image3D\Renderer
         $this->_shadows = (bool) $shadows;
     }
 
+    /**
+     *
+     * @param Line $ray
+     * @param number $depth
+     * @return false|Color
+     */
     protected function _sendRay(Line $ray, $depth)
     {
         if ($depth <= 0) {
@@ -179,7 +209,7 @@ class Raytrace extends \Image3D\Renderer
         }
 
         // Check lights influence for cutting point
-        $pointLights = array();
+        $pointLights = [];
         foreach ($this->_lights as $light) {
             // Check for shadow casting polygones
             if ($this->_shadows) {
@@ -190,7 +220,7 @@ class Raytrace extends \Image3D\Renderer
                 $lightVector = new Line($cuttingPoint->getX(), $cuttingPoint->getY(), $cuttingPoint->getZ(), $lightVector);
 
                 // Check all polygones for possible shadows to cast
-                $modifyingPolygones = array();
+                $modifyingPolygones = [];
 
                 $modifyLight = false;
                 foreach ($this->_polygones as $polygon) {
@@ -239,13 +269,17 @@ class Raytrace extends \Image3D\Renderer
         return $point->getColor();
     }
 
-    protected function _raytrace()
+    /**
+     *
+     * @return array
+     */
+    protected function _raytrace(): array
     {
         // Create basic ray ... modify direction later
         $ray = new Line($this->_camera->getX(), $this->_camera->getY(), $this->_camera->getZ(), new Vector(0, 0, 1));
 
         // Colorarray for resulting image
-        $canvas = array();
+        $canvas = [];
 
         // Iterate over viewplane
         for ($x = -$this->_size[0]; $x < $this->_size[0]; ++$x) {
@@ -278,7 +312,12 @@ class Raytrace extends \Image3D\Renderer
         return $canvas;
     }
 
-    protected function _getColor(Color $color)
+    /**
+     *
+     * @param Color $color
+     * @return int
+     */
+    protected function _getColor(Color $color): int
     {
         $values = $color->getValues();
 

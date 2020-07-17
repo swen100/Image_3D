@@ -16,38 +16,71 @@ namespace Image3D;
  */
 class Matrix
 {
-    protected $_matrix;
+    /**
+     *
+     * @var array
+     */
+    protected $_matrix = [];
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->setUnitMatrix();
     }
 
+    /**
+     *
+     * @param int $x
+     * @param int $y
+     * @param number $value
+     * @return boolean
+     */
     public function setValue($x, $y, $value)
     {
         if (!isset($this->_matrix[$x][$y])) {
             return false;
         }
+        
         $this->_matrix[$x][$y] = (float) $value;
+        
+        return true;
     }
 
+    /**
+     *
+     * @param int $x
+     * @param int $y
+     * @return boolean|float
+     */
     public function getValue($x, $y)
     {
         if (!isset($this->_matrix[$x][$y])) {
             return false;
         }
+        
         return (float) $this->_matrix[$x][$y];
     }
 
+    /**
+     * @return void
+     */
     public function setUnitMatrix()
     {
-        $this->_matrix = array(array(1., 0., 0., 0.),
-            array(0., 1., 0., 0.),
-            array(0., 0., 1., 0.),
-            array(0., 0., 0., 1.)
-        );
+        $this->_matrix = [
+            [1., 0., 0., 0.],
+            [0., 1., 0., 0.],
+            [0., 0., 1., 0.],
+            [0., 0., 0., 1.]
+        ];
     }
 
+    /**
+     *
+     * @param \Image3D\Matrix $matrix
+     * @return \Image3D\Matrix
+     */
     public function diff(Matrix $matrix)
     {
         $result = new Matrix();
@@ -59,6 +92,10 @@ class Matrix
         return $result;
     }
 
+    /**
+     *
+     * @param number $skalar
+     */
     public function multiplySkalar($skalar)
     {
         for ($i = 0; $i < 4; $i++) {
@@ -68,6 +105,9 @@ class Matrix
         }
     }
 
+    /**
+     * @return void
+     */
     public function dump()
     {
         foreach ($this->_matrix as $row) {
@@ -75,6 +115,12 @@ class Matrix
         }
     }
 
+    /**
+     *
+     * @param number $rotationX
+     * @param number $rotationY
+     * @param number $rotationZ
+     */
     public function setRotationMatrix($rotationX, $rotationY, $rotationZ)
     {
         $rotationY = (float) $rotationY;
@@ -129,6 +175,12 @@ class Matrix
         }
     }
 
+    /**
+     *
+     * @param number $moveX
+     * @param number $moveY
+     * @param number $moveZ
+     */
     public function setMoveMatrix($moveX, $moveY, $moveZ)
     {
         $matrix = new Matrix();
@@ -139,6 +191,12 @@ class Matrix
         $this->multiply($matrix);
     }
 
+    /**
+     *
+     * @param number $scaleX
+     * @param number $scaleY
+     * @param number $scaleZ
+     */
     public function setScaleMatrix($scaleX, $scaleY, $scaleZ)
     {
         $matrix = new Matrix();
@@ -149,6 +207,11 @@ class Matrix
         $this->multiply($matrix);
     }
 
+    /**
+     *
+     * @param \Image3D\Matrix $matrix
+     * @return $this
+     */
     public function multiply(Matrix $matrix)
     {
         $new = clone($this);

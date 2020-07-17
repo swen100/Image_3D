@@ -43,8 +43,6 @@ class Ds extends \Image3D\Paintable\Base3DObject
      */
     public function __construct($file)
     {
-        parent::__construct();
-
         if (!is_file($file) || !is_readable($file)) {
             throw new \Exception("3ds file ($file) could not be loaded.");
         }
@@ -95,7 +93,11 @@ class Ds extends \Image3D\Paintable\Base3DObject
         }
     }
 
-    public function getPolygonCount()
+    /**
+     *
+     * @return int
+     */
+    public function getPolygonCount(): int
     {
         $count = 0;
         foreach ($this->_objects as $object) {
@@ -111,6 +113,11 @@ class Ds extends \Image3D\Paintable\Base3DObject
         }
     }
 
+    /**
+     *
+     * @param string $option
+     * @param mixed $value
+     */
     public function setOption($option, $value)
     {
         foreach ($this->_objects as $object) {

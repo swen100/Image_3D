@@ -20,25 +20,39 @@ use Image3D\Paintable\Polygon;
 class Map extends \Image3D\Paintable\Base3DObject
 {
 
-    protected $_points;
+    /**
+     *
+     * @var array
+     */
+    protected $_points = [];
 
-    public function __construct($points = array())
+    /**
+     *
+     * @param array $points
+     */
+    public function __construct(array $points = [])
     {
-        parent::__construct();
-        $this->_points = array();
-
         foreach ($points as $row) {
             if (is_array($row)) {
                 $this->addRow($row);
             } else {
-                $this->addRow(array($row));
+                $this->addRow([$row]);
             }
         }
     }
 
-    public function addRow($row)
+    /**
+     *
+     * @param array $row
+     * @return boolean
+     */
+    public function addRow(array $row = []): bool
     {
-        $rowNbr = array_push($this->_points, array()) - 1;
+        if (empty($row)) {
+            return false;
+        }
+        
+        $rowNbr = array_push($this->_points, []) - 1;
         foreach ($row as $point) {
             if (is_object($point) && ($point instanceof Point)) {
                 $this->_points[$rowNbr][] = $point;
@@ -81,18 +95,30 @@ class Map extends \Image3D\Paintable\Base3DObject
                 $this->addPolygon(new Polygon($this->_points[$newRow][$i - 1], $this->_points[$newRow][$i], $this->_points[$lastRow][$k]));
             }
         }
+        
         return true;
     }
 
-    public function getRow($int)
+    /**
+     *
+     * @param int $x
+     * @return boolean|array
+     */
+    public function getRow(int $x)
     {
-        if (!isset($this->_points[$int])) {
+        if (!isset($this->_points[$x])) {
             return false;
         }
-        return $this->_points[$int];
+        return $this->_points[$x];
     }
 
-    public function getPoint($x, $y)
+    /**
+     *
+     * @param int $x
+     * @param int $y
+     * @return boolean|Point
+     */
+    public function getPoint(int $x, int $y)
     {
         if (!isset($this->_points[$x][$y])) {
             return false;
@@ -100,6 +126,11 @@ class Map extends \Image3D\Paintable\Base3DObject
         return $this->_points[$x][$y];
     }
 
+    /**
+     *
+     * @param string $option
+     * @param mixed $value
+     */
     public function setOption($option, $value)
     {
 //        if ($option === Image_3D::IMAGE_3D_OPTION_BF_CULLING) $value = false;

@@ -10,8 +10,6 @@ class Cone extends \Image3D\Paintable\Base3DObject
 
     public function __construct($parameter)
     {
-        parent::__construct();
-
         #$radius = 1;
         $height = 1;
         $detail = max(3, (int) $parameter['detail']);
