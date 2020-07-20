@@ -5,16 +5,11 @@ namespace Image3D\Paintable\Object;
 use Image3D\Matrix\Move;
 
 /**
- * Image_3D_Object_Text
- *
- * @category   Image
- * @package    Image_3D
- * @author     Kore Nordmann <3d@kore-nordmann.de>
- * @copyright  1997-2005 Kore Nordmann
- * @license    http://www.gnu.org/licenses/lgpl.txt lgpl 2.1
- * @version    Release: @package_version@
- * @link       http://pear.php.net/package/Image_3D
- * @since      Class available since Release 0.1.0
+ * @category  Image
+ * @package   Image_3D
+ * @author    Kore Nordmann <3d@kore-nordmann.de>
+ * @copyright 1997-2005 Kore Nordmann
+ * @link      http://pear.php.net/package/Image_3D
  */
 class Text extends \Image3D\Paintable\Base3DObject
 {

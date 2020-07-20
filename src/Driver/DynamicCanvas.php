@@ -7,12 +7,13 @@ use Image3D\Paintable\Polygon;
 use Image3D\Renderer;
 
 /**
- * Creates a HTML document, with embedded javascript code to draw, move, rotate
- * and export the 3D-object at runtime
+ * Creates a HTML document, with embedded javascript code to draw, move, rotate and export the 3D-object at runtime
  *
- * @category Image
- * @package  Image_3D
- * @author   Jakob Westhoff <jakob@westhoffswelt.de>
+ * @category  Image
+ * @package   Image_3D
+ * @author    Kore Nordmann <3d@kore-nordmann.de>
+ * @copyright 1997-2005 Kore Nordmann
+ * @link      http://pear.php.net/package/Image_3D
  */
 class DynamicCanvas extends \Image3D\Driver
 {

@@ -2,6 +2,13 @@
 
 namespace Image3D\Paintable\Object;
 
+/**
+ * @category  Image
+ * @package   Image_3D
+ * @author    Kore Nordmann <3d@kore-nordmann.de>
+ * @copyright 1997-2005 Kore Nordmann
+ * @link      http://pear.php.net/package/Image_3D
+ */
 class Chunk
 {
     protected $type;

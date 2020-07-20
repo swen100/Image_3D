@@ -5,8 +5,6 @@ namespace Image3D;
 use Image3D\Paintable\Light;
 
 /**
- * Image_3D
- *
  * Class for creation of 3d images only with native PHP.
  *
  * @category  Image
@@ -14,9 +12,7 @@ use Image3D\Paintable\Light;
  * @author    Kore Nordmann <3d@kore-nordmann.de>
  * @copyright 1997-2005 Kore Nordmann
  * @license   http://www.gnu.org/licenses/lgpl.txt lgpl 2.1
- * @version   Release: @package_version@
  * @link      http://pear.php.net/package/Image_3D
- * @since     Class available since Release 0.1.0
  */
 class Image_3D
 {
@@ -167,21 +163,6 @@ class Image_3D
     }
 
     /**
-     * Sets world backgroundcolor
-     *
-     * Sets the backgroundcolor for final image. Transparancy is not supported
-     * by all drivers
-     *
-     * @param Color $colorObj Backgroundcolor
-     *
-     * @return void
-     */
-    public function setColor(Color $colorObj)
-    {
-        $this->_color = $colorObj;
-    }
-
-    /**
      * Factory method for renderer
      *
      * Creates and returns a renderer.
@@ -239,6 +220,21 @@ class Image_3D
         foreach ($this->_objects as $object) {
             $object->setOption($option, $value);
         }
+    }
+
+    /**
+     * Sets world backgroundcolor
+     *
+     * Sets the backgroundcolor for final image. Transparancy is not supported
+     * by all drivers
+     *
+     * @param Color $colorObj Backgroundcolor
+     *
+     * @return void
+     */
+    public function setColor(Color $colorObj)
+    {
+        $this->_color = $colorObj;
     }
 
     /**

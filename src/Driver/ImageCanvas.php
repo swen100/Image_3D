@@ -6,6 +6,13 @@ use Image3D\Color;
 use Image3D\Paintable\Polygon;
 use Image3D\Renderer;
 
+/**
+ * @category  Image
+ * @package   Image_3D
+ * @author    Kore Nordmann <3d@kore-nordmann.de>
+ * @copyright 1997-2005 Kore Nordmann
+ * @link      http://pear.php.net/package/Image_3D
+ */
 class ImageCanvas extends \Image3D\Driver
 {
 
