@@ -2,8 +2,7 @@
 
 namespace Image3D;
 
-require_once('../src/autoload.php');
-require_once('../src/3D.php');
+require_once('../vendor/autoload.php');
 
 $world = new Image_3D();
 $world->setColor(new Color(80, 80, 80));

@@ -42,8 +42,6 @@ class Text extends \Image3D\Paintable\Base3DObject
      */
     public function __construct($string)
     {
-        parent::__construct();
-
         $this->_text = (string) $string;
         $this->_characterSpacing = 5.5;
 

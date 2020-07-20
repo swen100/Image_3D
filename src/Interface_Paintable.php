@@ -36,26 +36,22 @@ interface Interface_Paintable
 {
     
     /**
-     *
      * @return int
      */
     public function getPolygonCount(): int;
 
     /**
-     *
      * @param \Image3D\Color $color
      */
     public function setColor(Color $color);
 
     /**
-     *
      * @param string $option
      * @param mixed $value
      */
     public function setOption($option, $value);
 
     /**
-     *
      * @param \Image3D\Matrix $matrix
      * @param string $id
      */

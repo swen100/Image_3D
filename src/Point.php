@@ -48,7 +48,6 @@ class Point extends Coordinate implements Interface_Enlightenable
     protected $_color;
 
     /**
-     *
      * @param string $option
      * @param mixed $value
      */
@@ -58,11 +57,10 @@ class Point extends Coordinate implements Interface_Enlightenable
     }
 
     /**
-     *
      * @param array $lights
-     * @return boolean
+     * @return bool
      */
-    public function calculateColor($lights)
+    public function calculateColor($lights): bool
     {
         if (!count($lights)) {
             $values = $this->getColor()->getValues();
@@ -80,11 +78,17 @@ class Point extends Coordinate implements Interface_Enlightenable
         return true;
     }
 
+    /**
+     * @param \Image3D\Vector $vector
+     */
     public function addVector(Vector $vector)
     {
         $this->_vectors[] = $vector;
     }
 
+    /**
+     * @return void
+     */
     protected function calcNormale()
     {
         $this->_normale = new Vector(0, 0, 0);
@@ -94,7 +98,10 @@ class Point extends Coordinate implements Interface_Enlightenable
         $this->_normale->unify();
     }
 
-    public function getNormale()
+    /**
+     * @return \Image3D\Vector
+     */
+    public function getNormale(): Vector
     {
         if (!($this->_normale instanceof Vector)) {
             $this->calcNormale();
@@ -102,7 +109,7 @@ class Point extends Coordinate implements Interface_Enlightenable
         return $this->_normale;
     }
 
-    public function getPosition()
+    public function getPosition(): Vector
     {
         return new Vector($this->_x, $this->_y, $this->_z);
     }
@@ -113,7 +120,6 @@ class Point extends Coordinate implements Interface_Enlightenable
     }
 
     /**
-     *
      * @return void
      */
     protected function mixColors()
@@ -132,7 +138,6 @@ class Point extends Coordinate implements Interface_Enlightenable
     }
 
     /**
-     *
      * @return Color
      */
     public function getColor(): Color

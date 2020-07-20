@@ -19,8 +19,6 @@ class Polygon extends \Image3D\Paintable\Base3DObject
 {
     public function __construct($points)
     {
-        parent::__construct();
-
         $polygon = new PaintablePolygon();
         foreach ($points as $point) {
             $polygon->addPoint($point);

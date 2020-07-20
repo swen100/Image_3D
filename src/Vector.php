@@ -23,7 +23,6 @@ class Vector extends Coordinate
     protected $_length;
 
     /**
-     *
      * @param \Image3D\Vector $vector
      * @return float
      */
@@ -38,7 +37,6 @@ class Vector extends Coordinate
     }
 
     /**
-     *
      * @param \Image3D\Vector $vector
      * @return float
      */
@@ -50,7 +48,6 @@ class Vector extends Coordinate
     }
 
     /**
-     *
      * @return boolean|$this
      */
     public function unify()
@@ -70,7 +67,6 @@ class Vector extends Coordinate
     }
 
     /**
-     *
      * @return float
      */
     public function length(): float
@@ -82,7 +78,6 @@ class Vector extends Coordinate
     }
 
     /**
-     *
      * @param \Image3D\Coordinate $vector
      * @return $this
      */
@@ -96,7 +91,6 @@ class Vector extends Coordinate
     }
 
     /**
-     *
      * @param \Image3D\Coordinate $vector
      * @return $this
      */
@@ -110,7 +104,6 @@ class Vector extends Coordinate
     }
 
     /**
-     *
      * @param \Image3D\Vector|number $scalar
      * @return $this|float
      */
@@ -129,7 +122,6 @@ class Vector extends Coordinate
     }
 
     /**
-     *
      * @param \Image3D\Coordinate $vector
      * @return float
      */
@@ -141,7 +133,6 @@ class Vector extends Coordinate
     }
 
     /**
-     *
      * @param \Image3D\Coordinate $vector
      * @return \Image3D\Vector
      */

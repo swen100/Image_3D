@@ -24,11 +24,7 @@ class Base3DObject implements \Image3D\Interface_Paintable
      * @var array
      */
     protected $_polygones = [];
-    
-    public function __construct()
-    {
-    }
-    
+
     /**
      *
      * @return int

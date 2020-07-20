@@ -17,49 +17,37 @@ namespace Image3D;
 class Coordinate
 {
     /**
-     * X Coordiante
-     *
-     * @var float
+     * @var float X-coordinate
      */
     protected $_x;
 
     /**
-     * Y Coordiante
-     *
-     * @var float
+     * @var float Y-coordinate
      */
     protected $_y;
 
     /**
-     * Z Coordiante
-     *
-     * @var float
+     * @var float Z-coordinate
      */
     protected $_z;
 
     /**
-     * ID of the last transformation
-     *
-     * @var string
+     * @var string ID of the last transformation
      */
     protected $_lastTransformation;
 
     /**
-     * Variable saves if all relevant calculations for this point are done
-     *
-     * @var boolean
+     * @var bool flag to set if all relevant calculations for this point are done
      */
     protected $_processed;
 
     /**
-     * Screen coordinates (2d) of 3d-point
-     *
-     * @var array
+     * @var array screen coordinates (2d) of 3d-point
      */
     protected $screenCoordinates = [];
 
     /**
-     * Constructor for Image_3D_Coordinate
+     * Constructor for Image3D-Coordinate
      *
      * Create a Point with the given coordinates
      *
@@ -67,7 +55,7 @@ class Coordinate
      * @param number $y Y Coordinate
      * @param number $z Z Coordinate
      *
-     * @return Coordinate         Instance of Coordinate
+     * @return Coordinate Instance of Coordinate
      */
     public function __construct($x, $y, $z)
     {
@@ -79,10 +67,10 @@ class Coordinate
     /**
      * Transform the Coordinate
      *
-     * Use a transformationmatrix to transform (move) the point
+     * Use a transformation-matrix to transform (move) the point
      *
      * @param Matrix $matrix Transformationmatrix
-     * @param string          $id     Transformationid
+     * @param string $id     Transformationid
      *
      * @return void
      */
@@ -114,9 +102,7 @@ class Coordinate
     }
 
     /**
-     * Set Coordinate processed
-     *
-     * Store the coordinate as processed
+     * Set Coordinate as processed
      *
      * @return void
      */
@@ -126,11 +112,9 @@ class Coordinate
     }
 
     /**
-     * Coordinate already processed
-     *
      * Return if coordinate already was processsed
      *
-     * @return bool    processed
+     * @return bool processed
      */
     public function isProcessed()
     {
@@ -138,11 +122,9 @@ class Coordinate
     }
 
     /**
-     * Return X coordinate
-     *
      * Returns the X coordinate of the coordinate
      *
-     * @return float    X coordinate
+     * @return float X coordinate
      */
     public function getX()
     {
@@ -150,11 +132,9 @@ class Coordinate
     }
 
     /**
-     * Return Y coordinate
-     *
      * Returns the Y coordinate of the coordinate
      *
-     * @return float    Y coordinate
+     * @return float Y coordinate
      */
     public function getY()
     {
@@ -162,11 +142,9 @@ class Coordinate
     }
 
     /**
-     * Return Z coordinate
-     *
      * Returns the Z coordinate of the coordinate
      *
-     * @return float    Z coordinate
+     * @return float Z coordinate
      */
     public function getZ()
     {
@@ -192,10 +170,9 @@ class Coordinate
      * Get screen coordinates
      *
      * Return an array with the screen coordinates
-     * array (     0 =>    (float) $x,
-      1 =>    (float) $y )
+     * array (0 => (float) $x, 1 => (float) $y )
      *
-     * @return array    Screen coordinates
+     * @return array Screen coordinates
      */
     public function getScreenCoordinates(): array
     {
@@ -205,7 +182,7 @@ class Coordinate
     /**
      * Returns coordinate as string
      *
-     * @return string    Coordinate
+     * @return string Coordinate
      */
     public function __toString()
     {

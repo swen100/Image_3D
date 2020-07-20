@@ -1,0 +1,5 @@
+- Fix object enlightning
+- Check SVG renderer (shadings seems not to work any longer)
+- Implement animations
+- Fill empty method Pi::createDonutPie()
+- integrate Image_Canvas (one of the most recent is https://github.com/csatf/Image_Canvas)

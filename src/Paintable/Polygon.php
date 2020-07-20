@@ -21,29 +21,51 @@ use Image3D\Point;
 class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enlightenable
 {
 
+    /**
+     * @var \Image3D\Color
+     */
     protected $_color;
-    protected $_colorCalculated;
-    protected $_option;
-    protected $_points;
-    protected $_visible;
+    
+    /**
+     * @var bool
+     */
+    protected $_colorCalculated = false;
+    
+    /**
+     * @var array
+     */
+    protected $_option = [];
+    
+    /**
+     * @var array
+     */
+    protected $_points = [];
+    
+    /**
+     * @var bool
+     */
+    protected $_visible = true;
+    
+    /**
+     * @var Vector
+     */
     protected $_normale;
+    
+    /**
+     * @var Vector
+     */
     protected $_position;
-    protected $_boundingRect;
+    
+    /**
+     * @var array
+     */
+    protected $_boundingRect = [null, null, null, null, null, null];
 
+    /**
+     * 
+     */
     public function __construct()
     {
-        $this->_points = [];
-        $this->_option = [];
-        $this->_color = null;
-
-        $this->_colorCalculated = false;
-
-        $this->_visible = true;
-        $this->_normale = null;
-        $this->_position = null;
-
-        $this->_boundingRect = [null, null, null, null, null, null];
-
         if (func_num_args()) {
             $args = func_get_args();
             for ($i = 0; $i < func_num_args(); $i++) {
@@ -54,7 +76,10 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         }
     }
 
-    public function calculateColor($lights)
+    /**
+     * @param array $lights
+     */
+    public function calculateColor(array $lights = [])
     {
         foreach ($lights as $light) {
             $this->_color = $light->getColor($this);
@@ -62,12 +87,18 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         $this->_color->calculateColor();
     }
 
-    public function getColor()
+    /**
+     * @return Color
+     */
+    public function getColor(): Color
     {
         return $this->_color;
     }
 
-    protected function calcNormale()
+    /**
+     * @return bool
+     */
+    protected function calcNormale(): bool
     {
         if (count($this->_points) < 3) {
             $this->_normale = new Vector(0, 0, 0);
@@ -88,9 +119,14 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         if (($this->_normale->getZ() <= 0) && isset($this->_option[\Image3D\Image_3D::IMAGE_3D_OPTION_BF_CULLING])) {
             $this->setInvisible();
         }
+        
+        return true;
     }
 
-    public function getNormale()
+    /**
+     * @return Vector
+     */
+    public function getNormale(): Vector
     {
         if (!($this->_normale instanceof Vector)) {
             $this->calcNormale();
@@ -98,9 +134,12 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         return $this->_normale;
     }
 
+    /**
+     * @return void
+     */
     protected function calcPosition()
     {
-        $position = array(0, 0, 0);
+        $position = [0, 0, 0];
         foreach ($this->_points as $point) {
             $position[0] += $point->getX();
             $position[1] += $point->getY();
@@ -111,7 +150,10 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         $this->_position = new Vector($position[0] / $count, $position[1] / $count, $position[2] / $count);
     }
 
-    public function getPosition()
+    /**
+     * @return Vector
+     */
+    public function getPosition(): Vector
     {
         if (!($this->_position instanceof Vector)) {
             $this->calcPosition();
@@ -119,24 +161,38 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         return $this->_position;
     }
 
+    /**
+     * @return int 1
+     */
     public function getPolygonCount(): int
     {
         return 1;
     }
 
+    /**
+     * @param Color $color
+     * @return void
+     */
     public function setColor(Color $color)
     {
         $this->_color = $color;
     }
 
-    public function isVisible()
+    /**
+     * @return bool
+     */
+    public function isVisible(): bool
     {
-        return $this->isVisible();
+        return $this->_visible;
     }
 
-    public function setInvisible()
+    /**
+     * @param bool $visibility default false
+     * @return void
+     */
+    public function setInvisible(bool $visibility = false)
     {
-        $this->_visible = false;
+        $this->_visible = $visibility;
     }
 
     public function setOption($option, $value)
@@ -147,6 +203,10 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         }
     }
 
+    /**
+     * @param Point $point
+     * @return void
+     */
     public function addPoint(Point $point)
     {
         $this->_points[] = $point;
@@ -177,11 +237,17 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         }
     }
 
+    /**
+     * @return array
+     */
     public function getPoints(): array
     {
         return $this->_points;
     }
 
+    /**
+     * @return void
+     */
     protected function recalcBoundings()
     {
         $this->_boundingRect = [null, null, null, null, null, null];
@@ -213,9 +279,13 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         }
     }
 
+    /**
+     * @param \Image3D\Matrix $matrix
+     * @param string $id
+     * @return void
+     */
     public function transform(\Image3D\Matrix $matrix, $id = null)
     {
-
         if ($id === null) {
             $id = substr(md5(microtime()), 0, 8);
         }
@@ -227,25 +297,34 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         $this->recalcBoundings();
     }
 
-    public function getMidZ()
+    /**
+     * @return float
+     */
+    public function getMidZ(): float
     {
         $z = 0;
         foreach ($this->_points as $point) {
             $z += $point->getZ();
         }
-        return $z / count($this->_points);
+        return (float) ($z / count($this->_points));
     }
 
-    public function getMaxZ()
+    /**
+     * @return float
+     */
+    public function getMaxZ(): float
     {
-        $z = -500;
+        $z = PHP_INT_MIN;
         foreach ($this->_points as $point) {
             $z = max($point->getZ(), $z);
         }
-        return $z;
+        return (float) $z;
     }
 
-    public function __toString()
+    /**
+     * @return string
+     */
+    public function __toString(): string
     {
         $string = "Polygon:\n";
         foreach ($this->_points as $point) {
@@ -254,6 +333,10 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         return $string;
     }
 
+    /**
+     * @param \Image3D\Line $line
+     * @return false|float
+     */
     public function distance(\Image3D\Line $line)
     {
         // Calculate parameters for plane
@@ -328,6 +411,6 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
         }
 
         // Point is in polygon, return distance to polygon
-        return $t;
+        return (float) $t;
     }
 }

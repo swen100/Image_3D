@@ -17,7 +17,7 @@ use Image3D\Paintable\Polygon;
  * @link       http://pear.php.net/package/Image_3D
  * @since      Class available since Release 0.1.0
  */
-class /*Image_3D_Object_*/Sphere extends \Image3D\Paintable\/*Image_3D_*/ Base3DObject
+class Sphere extends \Image3D\Paintable\Base3DObject
 {
 
     /**
@@ -36,13 +36,10 @@ class /*Image_3D_Object_*/Sphere extends \Image3D\Paintable\/*Image_3D_*/ Base3D
     protected $_radius;
 
     /**
-     *
      * @param array $options ['r' => .., 'detail' => ..]
      */
     public function __construct($options)
     {
-        parent::__construct();
-
         $this->_radius = (float) $options['r'];
         $detail = (int) $options['detail'];
 

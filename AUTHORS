@@ -1,0 +1,12 @@
+Kore Nordmann <kore@php.net> 
+- Designed an implemented Image_3D
+
+Tobias Schlitt <toby@php.net>
+- Support for PEAR and application design
+- Wrote the ImageMagick output driver
+
+Arne Nordmann <norro@php.net> 
+- Wrote the SVGRotate driver and improved the SVG driver.
+
+Swen Zanon <swen.zanon@geoglis.de>
+- Overhauled the code to be usable with the newest PHP versions.

@@ -24,8 +24,6 @@ class Quadcube extends \Image3D\Paintable\Base3DObject
 
     public function __construct($parameter)
     {
-        parent::__construct();
-
         $x = (float) $parameter[0];
         $y = (float) $parameter[1];
         $z = (float) $parameter[2];

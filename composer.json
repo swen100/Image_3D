@@ -23,8 +23,8 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Image": "./"
+        "psr-4": {
+            "Image3D\\": "src/"
         }
     },
     "description": "More info available on: http://pear.php.net/package/Image_3D",

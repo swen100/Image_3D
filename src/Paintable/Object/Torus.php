@@ -22,8 +22,6 @@ class Torus extends \Image3D\Paintable\Base3DObject
 
     public function __construct($options)
     {
-        parent::__construct();
-
         $inner_radius = (float) $options['inner_radius'];
         $outer_radius = (float) $options['outer_radius'];
 
