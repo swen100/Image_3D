@@ -32,7 +32,7 @@ namespace Image3D;
  *
  * */
 
-interface Interface_Paintable
+interface Paintable
 {
     
     /**

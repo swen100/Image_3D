@@ -17,7 +17,7 @@ use Image3D\Vector;
  * @link      http://pear.php.net/package/Image_3D
  * @since     Class available since Release 0.1.0
  */
-class Light extends \Image3D\Coordinate implements \Image3D\Interface_Paintable
+class Light extends \Image3D\Coordinate implements \Image3D\Paintable
 {
     
     /**
@@ -75,10 +75,10 @@ class Light extends \Image3D\Coordinate implements \Image3D\Interface_Paintable
     
     /**
      *
-     * @param \Image3D\Interface_Enlightenable $polygon
+     * @param \Image3D\Enlightenable $polygon
      * @return \Image3D\Color
      */
-    public function getColor(\Image3D\Interface_Enlightenable $polygon)
+    public function getColor(\Image3D\Enlightenable $polygon)
     {
         $color = clone ($polygon->getColor());
         

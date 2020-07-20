@@ -18,7 +18,7 @@ use Image3D\Point;
  * @link      http://pear.php.net/package/Image_3D
  * @since     Class available since Release 0.1.0
  */
-class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enlightenable
+class Polygon implements \Image3D\Paintable, \Image3D\Enlightenable
 {
 
     /**
@@ -62,7 +62,7 @@ class Polygon implements \Image3D\Interface_Paintable, \Image3D\Interface_Enligh
     protected $_boundingRect = [null, null, null, null, null, null];
 
     /**
-     * 
+     *
      */
     public function __construct()
     {

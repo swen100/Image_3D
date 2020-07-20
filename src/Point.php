@@ -14,7 +14,7 @@ namespace Image3D;
  * @link      http://pear.php.net/package/Image_3D
  * @since     Class available since Release 0.1.0
  */
-class Point extends Coordinate implements Interface_Enlightenable
+class Point extends Coordinate implements Enlightenable
 {
 
     /**

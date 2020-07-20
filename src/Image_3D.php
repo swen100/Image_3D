@@ -86,8 +86,6 @@ class Image_3D
     const IMAGE_3D_OPTION_BF_CULLING = 2;
 
     /**
-     * Constructor for Image_3D
-     *
      * Initialises the environment
      *
      * @return void

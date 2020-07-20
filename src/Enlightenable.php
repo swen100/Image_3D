@@ -14,7 +14,7 @@ namespace Image3D;
  * @link      http://pear.php.net/package/Image_3D
  * @since     Class available since Release 0.1.0
  */
-interface Interface_Enlightenable
+interface Enlightenable
 {
     /**
      * Get Color from object

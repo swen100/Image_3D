@@ -24,10 +24,10 @@ class Ambient extends \Image3D\Paintable\Light
 
     /**
      *
-     * @param \Image3D\Interface_Enlightenable $polygon
+     * @param \Image3D\Enlightenable $polygon
      * @return \Image3D\Color
      */
-    public function getColor(\Image3D\Interface_Enlightenable $polygon): \Image3D\Color
+    public function getColor(\Image3D\Enlightenable $polygon): \Image3D\Color
     {
         $color = clone ($polygon->getColor());
         $color->addLight($this->_color, 1);

@@ -17,7 +17,7 @@ use Image3D\Matrix;
  * @link      http://pear.php.net/package/Image_3D
  * @since     Class available since Release 0.1.0
  */
-class Base3DObject implements \Image3D\Interface_Paintable
+class Base3DObject implements \Image3D\Paintable
 {
     
     /**

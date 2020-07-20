@@ -46,10 +46,10 @@ class /*Image_3D_Light_*/Spotlight extends \Image3D\Paintable\Light
 
     /**
      *
-     * @param \Image3D\Interface_Enlightenable $polygon
+     * @param \Image3D\Enlightenable $polygon
      * @return \Image3D\Color
      */
-    public function getColor(\Image3D\Interface_Enlightenable $polygon)
+    public function getColor(\Image3D\Enlightenable $polygon)
     {
         $color = clone ($polygon->getColor());
 
