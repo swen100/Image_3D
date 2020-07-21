@@ -353,21 +353,26 @@ class Polygon implements \Image3D\Paintable, \Image3D\Enlightenable
         $B = $normale->getY();
         $C = $normale->getZ();
 
-        $D = -($normale->getX() * $this->_points[0]->getX() +
-                $normale->getY() * $this->_points[0]->getY() +
-                $normale->getZ() * $this->_points[0]->getZ());
+        $D = -(
+            $normale->getX() * $this->_points[0]->getX() +
+            $normale->getY() * $this->_points[0]->getY() +
+            $normale->getZ() * $this->_points[0]->getZ()
+        );
 
         // Calculate wheather and where line cuts the polygons plane
         $lineDirection = $line->getDirection();
 
-        $denominator = -( $A * $line->getX() +
-                $B * $line->getY() +
-                $C * $line->getZ() +
-                $D);
+        $denominator = -(
+            $A * $line->getX() +
+            $B * $line->getY() +
+            $C * $line->getZ() +
+            $D
+        );
 
-        $numerator = ( $A * $lineDirection->getX() +
-                $B * $lineDirection->getY() +
-                $C * $lineDirection->getZ());
+        $numerator =
+            $A * $lineDirection->getX() +
+            $B * $lineDirection->getY() +
+            $C * $lineDirection->getZ();
 
         // Nu cut, when denomintor equals 0 (parallel plane)
         if ((int) ($denominator * 100000) === 0) {
@@ -391,11 +396,11 @@ class Polygon implements \Image3D\Paintable, \Image3D\Enlightenable
 
         // Perform fast check for point in bounding cube;
         if (($cuttingPoint->getX() < $this->_boundingRect[0]) ||
-                ($cuttingPoint->getY() < $this->_boundingRect[1]) ||
-                ($cuttingPoint->getZ() < $this->_boundingRect[2]) ||
-                ($cuttingPoint->getX() > $this->_boundingRect[3]) ||
-                ($cuttingPoint->getY() > $this->_boundingRect[4]) ||
-                ($cuttingPoint->getZ() > $this->_boundingRect[5])) {
+            ($cuttingPoint->getY() < $this->_boundingRect[1]) ||
+            ($cuttingPoint->getZ() < $this->_boundingRect[2]) ||
+            ($cuttingPoint->getX() > $this->_boundingRect[3]) ||
+            ($cuttingPoint->getY() > $this->_boundingRect[4]) ||
+            ($cuttingPoint->getZ() > $this->_boundingRect[5])) {
             return false;
         }
 
@@ -404,9 +409,17 @@ class Polygon implements \Image3D\Paintable, \Image3D\Enlightenable
         foreach ($this->_points as $nr => $point) {
             $nextPoint = $this->_points[($nr + 1) % count($this->_points)];
 
-            $edge = new Vector($nextPoint->getX() - $point->getX(), $nextPoint->getY() - $point->getY(), $nextPoint->getZ() - $point->getZ());
+            $edge = new Vector(
+                $nextPoint->getX() - $point->getX(),
+                $nextPoint->getY() - $point->getY(),
+                $nextPoint->getZ() - $point->getZ()
+            );
 
-            $v = new Vector($cuttingPoint->getX() - $point->getX(), $cuttingPoint->getY() - $point->getY(), $cuttingPoint->getZ() - $point->getZ());
+            $v = new Vector(
+                $cuttingPoint->getX() - $point->getX(),
+                $cuttingPoint->getY() - $point->getY(),
+                $cuttingPoint->getZ() - $point->getZ()
+            );
 
             $scalar = $edge->crossProduct($v)->scalar($normale);
 

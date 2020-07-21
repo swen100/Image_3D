@@ -14,8 +14,14 @@ use Image3D\Vector;
 class Point extends \Image3D\Paintable\Light
 {
 
-    protected $_color;
+    /**
+     * @var float
+     */
     protected $_falloff;
+    
+    /**
+     * @var float
+     */
     protected $_distance;
 
     /**
@@ -24,12 +30,12 @@ class Point extends \Image3D\Paintable\Light
      * @param number $z
      * @param array $parameter
      */
-    public function __construct($x = 0.0, $y = 0.0, $z = 0.0, $parameter = [])
+    public function __construct($x = 0.0, $y = 0.0, $z = 0.0, array $parameter = [])
     {
         parent::__construct($x, $y, $z);
 
-        $this->_falloff = max(0, (float) $parameter['falloff']);
-        $this->_distance = (float) $parameter['distance'];
+        $this->_falloff = max(0, (float) ($parameter['falloff'] ?? 0));
+        $this->_distance = (float) ($parameter['distance'] ?? 0);
     }
 
     /**

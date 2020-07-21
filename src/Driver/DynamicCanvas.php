@@ -257,7 +257,8 @@ class DynamicCanvas extends \Image3D\Driver
         ];
         
         $loadJsFile = function ($jsfile) {
-            $dataDir = dirname(__FILE__) . '/../../../test/data/DynamicCanvas/';
+            $dataDir = dirname(__FILE__) . '/../../test/data/DynamicCanvas/';
+            
             return is_dir($dataDir) ?
                 file_get_contents($dataDir . $jsfile) :
                 file_get_contents("@data_dir@/Image_3D/data/DynamicCanvas/" . $jsfile);

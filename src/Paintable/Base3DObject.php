@@ -42,7 +42,6 @@ class Base3DObject implements \Image3D\Paintable
     }
     
     /**
-     *
      * @param string $option
      * @param mixed $value
      */
@@ -53,9 +52,13 @@ class Base3DObject implements \Image3D\Paintable
         }
     }
 
+    /**
+     * @param Matrix $matrix
+     * @param string $id
+     * @return void
+     */
     public function transform(Matrix $matrix, $id = null)
     {
-        
         if ($id === null) {
             $id = substr(md5(microtime()), 0, 8);
         }
@@ -65,17 +68,27 @@ class Base3DObject implements \Image3D\Paintable
         }
     }
     
+    /**
+     * @return array
+     */
     public function getPolygones(): array
     {
         return $this->_polygones;
     }
     
+    /**
+     * @param \Image3D\Paintable\Polygon $polygon
+     * @return void
+     */
     protected function addPolygon(Polygon $polygon)
     {
         $this->_polygones[] = $polygon;
     }
     
-    protected function buildInzidenzGraph()
+    /**
+     * @return array ['surfaces':array, 'edges':array, 'points':array]
+     */
+    protected function buildInzidenzGraph(): array
     {
         $polygons = $this->getPolygones();
 

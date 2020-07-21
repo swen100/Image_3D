@@ -15,15 +15,16 @@ use Image3D\Paintable\Polygon;
 class Quadcube extends \Image3D\Paintable\Base3DObject
 {
 
-    protected $_points;
+    /**
+     * @var array
+     */
+    protected $_points = [];
 
-    public function __construct($parameter)
+    public function __construct(array $parameter = [])
     {
-        $x = (float) $parameter[0];
-        $y = (float) $parameter[1];
-        $z = (float) $parameter[2];
-
-        $this->_points = array();
+        $x = (float) $parameter[0] ?? 0;
+        $y = (float) $parameter[1] ?? 0;
+        $z = (float) $parameter[2] ?? 0;
 
         $this->_points[1] = new Point(-$x / 2, -$y / 2, -$z / 2);
         $this->_points[2] = new Point(-$x / 2, -$y / 2, $z / 2);

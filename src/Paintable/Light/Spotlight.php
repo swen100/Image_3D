@@ -11,7 +11,7 @@ use \Image3D\Vector;
  * @copyright 1997-2005 Kore Nordmann
  * @link      http://pear.php.net/package/Image_3D
  */
-class /*Image_3D_Light_*/Spotlight extends \Image3D\Paintable\Light
+class Spotlight extends \Image3D\Paintable\Light
 {
 
     /**
@@ -35,11 +35,14 @@ class /*Image_3D_Light_*/Spotlight extends \Image3D\Paintable\Light
      * @param number $z
      * @param array $parameter ['aim'=>[float,float,float], 'angle'=>float, 'float'=>int]
      */
-    public function __construct($x = 0.0, $y = 0.0, $z = 0.0, $parameter = [])
+    public function __construct($x = 0.0, $y = 0.0, $z = 0.0, array $parameter = [])
     {
         parent::__construct($x, $y, $z);
 
-        $aim = new Vector($parameter['aim'][0], $parameter['aim'][1], $parameter['aim'][2]);
+        if (!isset($parameter['aim'])) {
+            $parameter['aim'] = [0,0,0];
+        }
+        $aim = new Vector($parameter['aim'][0] ?? 0, $parameter['aim'][1] ?? 0, $parameter['aim'][2] ?? 0);
         $light = new Vector($this->_x, $this->_y, $this->_z);
         $light->sub($aim);
         $this->_direction = $light;
