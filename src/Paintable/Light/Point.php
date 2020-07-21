@@ -19,13 +19,12 @@ class Point extends \Image3D\Paintable\Light
     protected $_distance;
 
     /**
-     *
      * @param number $x
      * @param number $y
      * @param number $z
      * @param array $parameter
      */
-    public function __construct($x, $y, $z, $parameter)
+    public function __construct($x = 0.0, $y = 0.0, $z = 0.0, $parameter = [])
     {
         parent::__construct($x, $y, $z);
 
@@ -34,11 +33,10 @@ class Point extends \Image3D\Paintable\Light
     }
 
     /**
-     *
      * @param \Image3D\Enlightenable $polygon
      * @return \Image3D\Color
      */
-    public function getColor(\Image3D\Enlightenable $polygon)
+    public function getColor(\Image3D\Enlightenable $polygon): \Image3D\Color
     {
         $color = clone ($polygon->getColor());
 

@@ -87,7 +87,7 @@ class Polygon implements \Image3D\Paintable, \Image3D\Enlightenable
      */
     public function getColor(): Color
     {
-        return $this->_color;
+        return $this->_color ?? new Color(255, 255, 255, 0);
     }
 
     /**
@@ -182,14 +182,26 @@ class Polygon implements \Image3D\Paintable, \Image3D\Enlightenable
     }
 
     /**
+     * @return void
+     */
+    public function setInvisible()
+    {
+        $this->_visible = false;
+    }
+    
+    /**
      * @param bool $visibility default false
      * @return void
      */
-    public function setInvisible(bool $visibility = false)
+    public function setVisibility(bool $visibility = false)
     {
         $this->_visible = $visibility;
     }
 
+    /**
+     * @param string $option
+     * @param mixed $value
+     */
     public function setOption($option, $value)
     {
         $this->_option[$option] = $value;

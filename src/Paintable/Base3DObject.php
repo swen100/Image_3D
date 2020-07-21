@@ -16,7 +16,7 @@ class Base3DObject implements \Image3D\Paintable
 {
     
     /**
-     * @var array
+     * @var array<\Image3D\Paintable\Polygon>
      */
     protected $_polygones = [];
 
@@ -29,8 +29,13 @@ class Base3DObject implements \Image3D\Paintable
         return count($this->_polygones);
     }
     
+    /**
+     * @param Color $color
+     * @return void
+     */
     public function setColor(Color $color)
     {
+        /** @var \Image3D\Paintable\Polygon $polygon **/
         foreach ($this->_polygones as $polygon) {
             $polygon->setColor($color);
         }
@@ -60,7 +65,7 @@ class Base3DObject implements \Image3D\Paintable
         }
     }
     
-    public function getPolygones()
+    public function getPolygones(): array
     {
         return $this->_polygones;
     }
@@ -140,9 +145,12 @@ class Base3DObject implements \Image3D\Paintable
         ];
     }
 
+    /**
+     * @param number $factor
+     */
     public function subdivideSurfaces($factor = 1)
     {
-        for ($i = 0; $i < $factor; ++$i) {
+        for ($i = 0; $i < (int) $factor; ++$i) {
             $data = $this->buildInzidenzGraph();
 
             // Additional hash maps

@@ -24,25 +24,16 @@ class Light extends \Image3D\Coordinate implements \Image3D\Paintable
      * @var array
      */
     protected $options = [];
-
-    /**
-     *
-     * @param number $x
-     * @param number $y
-     * @param number $z
-     */
-    public function __construct($x, $y, $z)
-    {
-        parent::__construct($x, $y, $z);
-    }
     
+    /**
+     * @return int 1
+     */
     public function getPolygonCount(): int
     {
         return 0;
     }
     
     /**
-     *
      * @param \Image3D\Color $color
      */
     public function setColor(\Image3D\Color $color)
@@ -59,7 +50,6 @@ class Light extends \Image3D\Coordinate implements \Image3D\Paintable
     }
     
     /**
-     *
      * @param string $option
      * @param mixed $value
      */
@@ -69,11 +59,10 @@ class Light extends \Image3D\Coordinate implements \Image3D\Paintable
     }
     
     /**
-     *
      * @param \Image3D\Enlightenable $polygon
      * @return \Image3D\Color
      */
-    public function getColor(\Image3D\Enlightenable $polygon)
+    public function getColor(\Image3D\Enlightenable $polygon): \Image3D\Color
     {
         $color = clone ($polygon->getColor());
         

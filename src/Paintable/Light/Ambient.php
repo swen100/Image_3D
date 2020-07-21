@@ -11,14 +11,7 @@ namespace Image3D\Paintable\Light;
  */
 class Ambient extends \Image3D\Paintable\Light
 {
-
-    public function __construct()
-    {
-        parent::__construct(0, 0, 0);
-    }
-
     /**
-     *
      * @param \Image3D\Enlightenable $polygon
      * @return \Image3D\Color
      */

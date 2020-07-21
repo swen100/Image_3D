@@ -18,16 +18,18 @@ class ChunkObject extends Chunk
     protected $name = '';
 
     /**
-     *
      * @param number $type
      * @param string $content
      */
-    public function __construct($type, $content)
+    public function __construct($type, string $content)
     {
         parent::__construct($type, $content);
         $this->createName();
     }
 
+    /**
+     * @return void
+     */
     protected function createName()
     {
         $i = 0;
@@ -35,11 +37,20 @@ class ChunkObject extends Chunk
         while ((ord($this->content{$i}) !== 0) && ($i < $this->size)) {
             $this->name .= $this->content{$i++};
         }
+        
         $this->content = substr($this->content, $i + 1);
     }
 
-    public function readChunks(Ds $k3ds = null)
+    /**
+     * @param \Image3D\Paintable\Object\Ds $k3ds
+     * @return bool
+     */
+    public function readChunks(Ds $k3ds = null): bool
     {
+        if (strlen($this->content) < 6) {
+            return false;
+        }
+        
         $subtype = $this->getWord(substr($this->content, 0, 2));
         $subcontent = substr($this->content, 6);
 
@@ -49,6 +60,8 @@ class ChunkObject extends Chunk
                 $this->chunks[] = new ChunkTriMesh($subtype, $subcontent, $object);
                 break;
         }
+        
+        return true;
     }
 
     public function debug()

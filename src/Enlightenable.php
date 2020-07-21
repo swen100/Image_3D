@@ -15,7 +15,7 @@ interface Enlightenable
      *
      * Return the color for the object
      *
-     * @return Color Color of object
+     * @return \Image3D\Color Color of object
      */
     public function getColor(): Color;
     
@@ -24,7 +24,7 @@ interface Enlightenable
      *
      * Return normale vector for the object
      *
-     * @return Vector Normale vector
+     * @return \Image3D\Vector Normale vector
      */
     public function getNormale(): Vector;
     
@@ -33,7 +33,7 @@ interface Enlightenable
      *
      * Return position for the object
      *
-     * @return Vector
+     * @return \Image3D\Vector
      */
     public function getPosition(): Vector;
 }

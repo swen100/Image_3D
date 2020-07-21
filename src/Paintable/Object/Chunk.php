@@ -11,9 +11,25 @@ namespace Image3D\Paintable\Object;
  */
 class Chunk
 {
+    
+    /**
+     * @var int
+     */
     protected $type;
-    protected $content;
-    protected $size;
+    
+    /**
+     * @var string
+     */
+    protected $content = '';
+    
+    /**
+     * @var int
+     */
+    protected $size = 0;
+    
+    /**
+     * @var array<Chunk>
+     */
     protected $chunks = [];
 
     //>------ Primary chunk
@@ -75,18 +91,21 @@ class Chunk
     const BOGUS = 0x0011;
 
     /**
-     *
      * @param number $type
      * @param string $content
      */
-    public function __construct($type, $content)
+    public function __construct($type, string $content)
     {
         $this->type = (int) $type;
         $this->size = strlen($content);
         $this->content = $content;
     }
 
-    public function readChunks(Ds $k3ds = null)
+    /**
+     * @param \Image3D\Paintable\Object\Ds $k3ds
+     * @return bool
+     */
+    public function readChunks(Ds $k3ds = null): bool
     {
         if (!empty($this->chunks) || ($this->size < 6)) {
             return false;
@@ -103,13 +122,23 @@ class Chunk
             $position += 4;
 
             $this->chunks[] = new Chunk($type, substr($string, $position, $chunkLength));
+            
             $position += $chunkLength;
         }
+        
+        return true;
     }
 
     public function debug()
     {
-        printf("Typ: %6d (0x%04x) (%6d bytes) | Objects:%4d | Content:%6d\n", $this->type, $this->type, $this->size, count($this->chunks), strlen($this->content));
+        printf(
+            "Typ: %6d (0x%04x) (%6d bytes) | Objects:%4d | Content:%6d\n",
+                $this->type,
+                $this->type,
+                $this->size,
+                count($this->chunks),
+                strlen($this->content)
+            );
     }
 
     protected function getWord($string)

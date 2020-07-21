@@ -17,7 +17,12 @@ class ChunkTriMesh extends Chunk
      */
     protected $object;
 
-    public function __construct($type, $content, $object)
+    /**
+     * @param number $type
+     * @param string $content
+     * @param \Image3D\Paintable\Object\DsObject $object
+     */
+    public function __construct($type, string $content, DsObject $object)
     {
         parent::__construct($type, $content);
 
@@ -37,7 +42,7 @@ class ChunkTriMesh extends Chunk
             $count = $this->getWord(substr($points, 0, 2));
             $points = substr($points, 2);
 
-            for ($i = 0; $i < $count; $i++) {
+            for ($i = 0; $i < $count; ++$i) {
                 $x = $this->getFloat(substr($points, 0, 4));
                 $y = $this->getFloat(substr($points, 4, 4));
                 $z = $this->getFloat(substr($points, 8, 4));

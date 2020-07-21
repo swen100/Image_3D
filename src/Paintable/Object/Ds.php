@@ -19,10 +19,8 @@ class Ds extends \Image3D\Paintable\Base3DObject
      */
     protected $_file;
     
-    #protected $_fileSize;
-    
     /**
-     * @var array
+     * @var array<DsObject>
      */
     protected $_objects = [];
     
@@ -32,7 +30,6 @@ class Ds extends \Image3D\Paintable\Base3DObject
     protected $_chunks;
 
     /**
-     *
      * @param string $file
      * @throws \Exception
      */
@@ -46,6 +43,9 @@ class Ds extends \Image3D\Paintable\Base3DObject
         $this->readChunks();
     }
 
+    /**
+     * @return void
+     */
     protected function readChunks()
     {
         $this->_chunks = new Chunk(Chunk::MAIN3DS, substr(file_get_contents($this->_file), 6));
@@ -54,13 +54,19 @@ class Ds extends \Image3D\Paintable\Base3DObject
         $editor = $this->_chunks->getFirstChunkByType(Chunk::EDIT3DS);
         $editor->readChunks();
 
+        /** @var array<\Image3D\Paintable\Object\Chunk> $objects */
         $objects = $editor->getChunksByType(Chunk::EDIT_OBJECT);
+
         foreach ($objects as $object) {
-            $object = new ChunkObject($object->getType(), $object->getContent());
-            $object->readChunks($this);
+            $chunkObj = new ChunkObject($object->getType(), $object->getContent());
+            $chunkObj->readChunks($this);
         }
     }
 
+    /**
+     * @param string $id
+     * @return DsObject
+     */
     public function addObject($id)
     {
         $id = (string) $id;
@@ -68,11 +74,18 @@ class Ds extends \Image3D\Paintable\Base3DObject
         return $this->_objects[$id];
     }
 
-    public function getObjectIDs()
+    /**
+     * @return array
+     */
+    public function getObjectIDs(): array
     {
         return array_keys($this->_objects);
     }
 
+    /**
+     * @param string $id
+     * @return false|DsObject
+     */
     public function getObject($id)
     {
         if (!isset($this->_objects[$id])) {
@@ -81,15 +94,17 @@ class Ds extends \Image3D\Paintable\Base3DObject
         return $this->_objects[$id];
     }
 
-    public function paint()
-    {
-        foreach ($this->_objects as $object) {
-            $object->paint();
-        }
-    }
+//    /**
+//     * @return void
+//     */
+//    public function paint()
+//    {
+//        foreach ($this->_objects as $object) {
+//            $object->paint();
+//        }
+//    }
 
     /**
-     *
      * @return int
      */
     public function getPolygonCount(): int
@@ -101,6 +116,12 @@ class Ds extends \Image3D\Paintable\Base3DObject
         return $count;
     }
 
+    /**
+     * Sets the color for every created DsObject.
+     * 
+     * @param \Image3D\Color $color
+     * @return void
+     */
     public function setColor(\Image3D\Color $color)
     {
         foreach ($this->_objects as $object) {
@@ -109,9 +130,9 @@ class Ds extends \Image3D\Paintable\Base3DObject
     }
 
     /**
-     *
      * @param string $option
      * @param mixed $value
+     * @return void
      */
     public function setOption($option, $value)
     {
@@ -120,6 +141,11 @@ class Ds extends \Image3D\Paintable\Base3DObject
         }
     }
 
+    /**
+     * @param Matrix $matrix
+     * @param string $id
+     * @return void
+     */
     public function transform(Matrix $matrix, $id = null)
     {
         if ($id === null) {
@@ -130,6 +156,10 @@ class Ds extends \Image3D\Paintable\Base3DObject
         }
     }
 
+    /**
+     * @param number $factor
+     * @return void
+     */
     public function subdivideSurfaces($factor = 1)
     {
         foreach ($this->_objects as $object) {
@@ -137,9 +167,12 @@ class Ds extends \Image3D\Paintable\Base3DObject
         }
     }
 
-    public function getPolygones()
+    /**
+     * @return array
+     */
+    public function getPolygones(): array
     {
-        $polygones = array();
+        $polygones = [];
         foreach ($this->_objects as $object) {
             $polygones = array_merge($polygones, $object->getPolygones());
         }

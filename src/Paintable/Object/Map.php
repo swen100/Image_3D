@@ -16,13 +16,11 @@ class Map extends \Image3D\Paintable\Base3DObject
 {
 
     /**
-     *
-     * @var array
+     * @var array[[Point]]
      */
     protected $_points = [];
 
     /**
-     *
      * @param array $points
      */
     public function __construct(array $points = [])
@@ -37,9 +35,8 @@ class Map extends \Image3D\Paintable\Base3DObject
     }
 
     /**
-     *
      * @param array $row
-     * @return boolean
+     * @return bool
      */
     public function addRow(array $row = []): bool
     {
@@ -54,7 +51,7 @@ class Map extends \Image3D\Paintable\Base3DObject
             }
         }
 
-        if (!count($this->_points[$rowNbr])) {
+        if (!array_key_exists($rowNbr, $this->_points) OR empty($this->_points[$rowNbr])) {
             unset($this->_points[$rowNbr]);
             return false;
         }
@@ -82,11 +79,11 @@ class Map extends \Image3D\Paintable\Base3DObject
             $k = 0;
             for ($i = 1; $i < $newCount; $i++) {
                 if (($i * $top) > ($k * $bottom + $bottom / 2)) {
-                    // Nach unten geoeffnetes Polygon einfuegen /\
+                    // Nach unten geoeffnetes Polygon einfuegen
                     $this->addPolygon(new Polygon($this->_points[$newRow][$i - 1], $this->_points[$lastRow][$k + 1], $this->_points[$lastRow][$k]));
-                    $k++;
+                    ++$k;
                 }
-                // Nach oben geoeffnetes Polygon einfuegen \/
+                // Nach oben geoeffnetes Polygon einfuegen
                 $this->addPolygon(new Polygon($this->_points[$newRow][$i - 1], $this->_points[$newRow][$i], $this->_points[$lastRow][$k]));
             }
         }
@@ -95,9 +92,8 @@ class Map extends \Image3D\Paintable\Base3DObject
     }
 
     /**
-     *
      * @param int $x
-     * @return boolean|array
+     * @return array|false
      */
     public function getRow(int $x)
     {
@@ -108,10 +104,9 @@ class Map extends \Image3D\Paintable\Base3DObject
     }
 
     /**
-     *
      * @param int $x
      * @param int $y
-     * @return boolean|Point
+     * @return Point|false
      */
     public function getPoint(int $x, int $y)
     {
@@ -122,7 +117,6 @@ class Map extends \Image3D\Paintable\Base3DObject
     }
 
     /**
-     *
      * @param string $option
      * @param mixed $value
      */

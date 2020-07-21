@@ -16,7 +16,7 @@ class DsObject extends \Image3D\Paintable\Base3DObject
 {
 
     /**
-     * @var array
+     * @var array<Point>
      */
     protected $_points = [];
 
@@ -25,7 +25,6 @@ class DsObject extends \Image3D\Paintable\Base3DObject
     }
     
     /**
-     *
      * @return array
      */
     public function getPoints(): array
@@ -34,7 +33,6 @@ class DsObject extends \Image3D\Paintable\Base3DObject
     }
     
     /**
-     *
      * @return int
      */
     public function getNumPoints(): int

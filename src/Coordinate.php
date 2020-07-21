@@ -48,13 +48,13 @@ class Coordinate
      *
      * Create a Point with the given coordinates
      *
-     * @param number $x X Coordinate
-     * @param number $y Y Coordinate
-     * @param number $z Z Coordinate
+     * @param number $x X Coordinate, default 0.0
+     * @param number $y Y Coordinate, default 0.0
+     * @param number $z Z Coordinate, default 0.0
      *
      * @return Coordinate Instance of Coordinate
      */
-    public function __construct($x, $y, $z)
+    public function __construct($x = 0.0, $y = 0.0, $z = 0.0)
     {
         $this->_x = (float) $x;
         $this->_y = (float) $y;

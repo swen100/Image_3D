@@ -14,18 +14,28 @@ use \Image3D\Vector;
 class /*Image_3D_Light_*/Spotlight extends \Image3D\Paintable\Light
 {
 
+    /**
+     * @var Vector
+     */
     protected $_direction;
+    
+    /**
+     * @var float
+     */
     protected $_angle;
+    
+    /**
+     * @var int
+     */
     protected $_float;
 
     /**
-     *
      * @param number $x
      * @param number $y
      * @param number $z
-     * @param array $parameter
+     * @param array $parameter ['aim'=>[float,float,float], 'angle'=>float, 'float'=>int]
      */
-    public function __construct($x, $y, $z, $parameter)
+    public function __construct($x = 0.0, $y = 0.0, $z = 0.0, $parameter = [])
     {
         parent::__construct($x, $y, $z);
 
@@ -35,16 +45,15 @@ class /*Image_3D_Light_*/Spotlight extends \Image3D\Paintable\Light
         $this->_direction = $light;
         $this->_direction->unify();
 
-        $this->_angle = deg2rad($parameter['angle']) / 2;
-        $this->_float = (int) $parameter['float'];
+        $this->_angle = deg2rad($parameter['angle'] ?? 0) / 2;
+        $this->_float = (int) ($parameter['float'] ?? 1);
     }
 
     /**
-     *
      * @param \Image3D\Enlightenable $polygon
      * @return \Image3D\Color
      */
-    public function getColor(\Image3D\Enlightenable $polygon)
+    public function getColor(\Image3D\Enlightenable $polygon): \Image3D\Color
     {
         $color = clone ($polygon->getColor());
 
@@ -57,11 +66,7 @@ class /*Image_3D_Light_*/Spotlight extends \Image3D\Paintable\Light
             return $color;
         }
 
-        if ($this->_float) {
-            $factor = 1 - pow($angle / $this->_angle, $this->_float);
-        } else {
-            $factor = 1;
-        }
+        $factor = 1 - pow($angle / $this->_angle, $this->_float);
 
         $light->add(new Vector(0, 0, -1));
         $normale = $polygon->getNormale();
