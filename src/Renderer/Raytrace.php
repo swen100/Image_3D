@@ -43,10 +43,11 @@ class Raytrace extends \Image3D\Renderer
      */
     protected $_depth = 5;
 
+    /**
+     * 
+     */
     public function __construct()
     {
-        parent::__construct();
-
         $this->_camera = new Coordinate(0, 0, -100);
     }
 
@@ -101,7 +102,6 @@ class Raytrace extends \Image3D\Renderer
     }
 
     /**
-     *
      * @param number $rays
      */
     public function setRaysPerPixel($rays)
@@ -110,7 +110,6 @@ class Raytrace extends \Image3D\Renderer
     }
 
     /**
-     *
      * @param number $depth
      */
     public function scanDepth($depth)
@@ -124,12 +123,11 @@ class Raytrace extends \Image3D\Renderer
     }
 
     /**
-     *
      * @param Line $ray
      * @param number $depth
      * @return false|Color
      */
-    protected function _sendRay(Line $ray, $depth)
+    protected function sendRay(Line $ray, $depth)
     {
         if ($depth <= 0) {
             return false;
@@ -183,9 +181,9 @@ class Raytrace extends \Image3D\Renderer
                 $direction->sub($normale->multiply($normale->scalar($direction))->multiply(2))
             );
 
-            $reflectionColor = $this->_sendRay($reflectionRay, $depth - 1);
+            $reflectionColor = $this->sendRay($reflectionRay, $depth - 1);
             if ($reflectionColor === false) {
-                $reflectionColor = $this->_background;
+                $reflectionColor = $this->bgColorObj;
             }
             $reflectionColor->mixAlpha($reflection);
             $point->addColor($reflectionColor);
@@ -195,9 +193,9 @@ class Raytrace extends \Image3D\Renderer
             // Calculate colors in the back of our polygon
             $transparencyRay = new Line($cuttingPoint->getX(), $cuttingPoint->getY(), $cuttingPoint->getZ(), $ray->getDirection());
 
-            $transparencyColor = $this->_sendRay($transparencyRay, $depth - 1);
+            $transparencyColor = $this->sendRay($transparencyRay, $depth - 1);
             if ($transparencyColor === false) {
-                $transparencyColor = $this->_background;
+                $transparencyColor = $this->bgColorObj;
             }
             $transparencyColor->mixAlpha($transparency);
             $point->addColor($transparencyColor);
@@ -265,10 +263,9 @@ class Raytrace extends \Image3D\Renderer
     }
 
     /**
-     *
      * @return array
      */
-    protected function _raytrace(): array
+    protected function raytrace(): array
     {
         // Create basic ray ... modify direction later
         $ray = new Line($this->_camera->getX(), $this->_camera->getY(), $this->_camera->getZ(), new Vector(0, 0, 1));
@@ -293,11 +290,11 @@ class Raytrace extends \Image3D\Renderer
                         ));
 
                         // Get color for ray
-                        $color = $this->_sendRay($ray, $this->_depth);
+                        $color = $this->sendRay($ray, $this->_depth);
                         if ($color !== false) {
                             $canvas[$x + $this->_size[0]][$y + $this->_size[1]][] = $color;
                         } else {
-                            $canvas[$x + $this->_size[0]][$y + $this->_size[1]][] = $this->_background;
+                            $canvas[$x + $this->_size[0]][$y + $this->_size[1]][] = $this->bgColorObj;
                         }
                     }
                 }
@@ -308,11 +305,10 @@ class Raytrace extends \Image3D\Renderer
     }
 
     /**
-     *
      * @param Color $color
      * @return int
      */
-    protected function _getColor(Color $color): int
+    protected function getColor(Color $color): int
     {
         $values = $color->getValues();
 
@@ -341,23 +337,20 @@ class Raytrace extends \Image3D\Renderer
     }
 
     /**
-     * Render the image
-     *
      * Render the image into the metioned file
      *
      * @param string $file Filename
-     *
      * @return bool
      */
     public function render($file): bool
     {
         // Render image...
-        $canvas = $this->_raytrace();
+        $canvas = $this->raytrace();
 
         // Write canvas to file
         $this->_image = imagecreatetruecolor($this->_size[0] * 2, $this->_size[1] * 2);
 
-        $bg = $this->_getColor($this->_background);
+        $bg = $this->getColor($this->bgColorObj);
         imagefill($this->_image, 1, 1, $bg);
 
         $x = 0;
@@ -367,7 +360,7 @@ class Raytrace extends \Image3D\Renderer
                 if (count($pixel)) {
                     $color = new Color();
                     $color->merge($pixel);
-                    imagesetpixel($this->_image, $x, $y, $this->_getColor($color));
+                    imagesetpixel($this->_image, $x, $y, $this->getColor($color));
                 }
                 ++$y;
             }

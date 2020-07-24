@@ -12,7 +12,10 @@ use Image3D\Paintable\Polygon as PaintablePolygon;
  */
 class Polygon extends \Image3D\Paintable\Base3DObject
 {
-    public function __construct($points)
+    /**
+     * @param array{\Image3D\Point} $points
+     */
+    public function __construct(array $points = [])
     {
         $polygon = new PaintablePolygon();
         foreach ($points as $point) {
@@ -20,8 +23,19 @@ class Polygon extends \Image3D\Paintable\Base3DObject
         }
         $this->addPolygon($polygon);
     }
+    
+    /**
+     * @param \Image3D\Point $pointObj
+     */
+    public function addPoint(\Image3D\Point $pointObj)
+    {
+        $this->getPolygon()->addPoint($pointObj);
+    }
 
-    public function getPolygon()
+    /**
+     * @return \Image3D\Paintable\Polygon
+     */
+    public function getPolygon(): Polygon
     {
         return reset($this->_polygones);
     }

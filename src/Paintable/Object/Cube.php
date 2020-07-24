@@ -25,28 +25,28 @@ class Cube extends \Image3D\Paintable\Base3DObject
      */
     public function __construct(array $parameter = [])
     {
-        $x = (float) $parameter[0] ?? 0;
-        $y = (float) $parameter[1] ?? 0;
-        $z = (float) $parameter[2] ?? 0;
+        $x = (float) ($parameter[0] ?? 0);
+        $y = (float) ($parameter[1] ?? 0);
+        $z = (float) ($parameter[2] ?? 0);
 
-        // links unten unten
+        // links unten, unten
         $this->_points[1] = new Point(-$x / 2, -$y / 2, -$z / 2);
-        // links unten oben
+        // links unten, oben
         $this->_points[2] = new Point(-$x / 2, -$y / 2, $z / 2);
 
-        // links oben unten
+        // links oben, unten
         $this->_points[3] = new Point(-$x / 2, $y / 2, -$z / 2);
-        // links oben oben
+        // links oben, oben
         $this->_points[4] = new Point(-$x / 2, $y / 2, $z / 2);
 
-        // rechts unten unten
+        // rechts unten, unten
         $this->_points[5] = new Point($x / 2, -$y / 2, -$z / 2);
-        // rechtes unten oben
+        // rechtes unten, oben
         $this->_points[6] = new Point($x / 2, -$y / 2, $z / 2);
 
-        // rechts oben unten
+        // rechts oben, unten
         $this->_points[7] = new Point($x / 2, $y / 2, -$z / 2);
-        // rechts oben oben
+        // rechts oben, oben
         $this->_points[8] = new Point($x / 2, $y / 2, $z / 2);
 
         // Oben & Unten

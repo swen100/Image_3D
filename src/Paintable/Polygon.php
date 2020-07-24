@@ -61,12 +61,19 @@ class Polygon implements \Image3D\Paintable, \Image3D\Enlightenable
      */
     public function __construct()
     {
-        if (func_num_args()) {
-            $args = func_get_args();
-            for ($i = 0; $i < func_num_args(); $i++) {
-                if (is_object($args[$i]) && ($args[$i] instanceof Point)) {
-                    $this->addPoint($args[$i]);
-                }
+        $this->parseArgs(func_get_args());
+    }
+    
+    /**
+     * @param array $args
+     */
+    private function parseArgs(array $args = [])
+    {
+        foreach($args as $arg) {
+            if (is_object($arg) && ($arg instanceof Point)) {
+                $this->addPoint($arg);
+            } else if (is_array($arg)) {
+                $this->parseArgs($arg);
             }
         }
     }

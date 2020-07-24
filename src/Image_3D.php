@@ -115,7 +115,16 @@ class Image_3D
         $name = ucfirst($type);
         $class = '\\Image3D\\Paintable\\Object\\' . $name;
 
-        return $this->_objects[] = new $class($parameter);
+        return $this->addObject( new $class($parameter) );
+    }
+    
+    /**
+     * @param \Image3D\Paintable\Base3DObject $object
+     * @return void
+     */
+    public function addObject(Paintable\Base3DObject $object)
+    {
+        return $this->_objects[] = $object;
     }
 
     /**

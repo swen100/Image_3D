@@ -16,7 +16,6 @@ class Pie extends \Image3D\Paintable\Base3DObject
 {
 
     /**
-     *
      * @param array $parameter ['inside' => 0|1]
      */
     public function __construct(array $parameter)
@@ -33,7 +32,6 @@ class Pie extends \Image3D\Paintable\Base3DObject
     }
 
     /**
-     *
      * @param array $parameter ['end' => .., 'start' => .., 'detail' => .., 'outside' => .., 'inside' => ..]
      */
     protected function createPie(array $parameter)
@@ -78,7 +76,6 @@ class Pie extends \Image3D\Paintable\Base3DObject
     }
 
     /**
-     *
      * @param array $array
      * @return array
      */
@@ -94,7 +91,6 @@ class Pie extends \Image3D\Paintable\Base3DObject
     }
 
     /**
-     *
      * @param array $parameter ['end' => .., 'start' => .., 'detail' => .., 'outside' => .., 'inside' => ..]
      */
     public function createDonutPie($parameter)

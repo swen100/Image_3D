@@ -20,12 +20,14 @@ class Isometric extends \Image3D\Renderer
      * Calculate isometric screen coordinates for a point
      *
      * @param Point $point Point to process
-     *
      * @return void
      */
     protected function calculateScreenCoordiantes(Point $point)
     {
-        $point->setScreenCoordinates($point->getX() - ($point->getZ() * .35) + $this->_size[0], $point->getY() + ($point->getZ() * .35) + $this->_size[1]);
+        $point->setScreenCoordinates(
+            $point->getX() - ($point->getZ() * .35) + $this->_size[0],
+            $point->getY() + ($point->getZ() * .35) + $this->_size[1]
+        );
     }
 
     /**
